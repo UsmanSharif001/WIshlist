@@ -16,6 +16,10 @@ public class Wishlist {
 
     }
 
+    public void addWish(Wish wish){
+        wishList.add(wish);
+    }
+
     public String getName() {
         return name;
     }
