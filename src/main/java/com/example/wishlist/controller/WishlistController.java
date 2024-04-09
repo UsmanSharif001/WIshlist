@@ -37,7 +37,7 @@ public class WishlistController {
 
     @GetMapping("/{userid}/addwishlist")
     private String addWishlist() {
-        return "addWishlist";
+        return "addwishlist";
     }
 
     @PostMapping("/savewishlist")
