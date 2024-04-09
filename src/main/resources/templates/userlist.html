@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Velkommen til Ønskeliste-siden!</title>
 </head>
 <body>
-
+<table>
+    <thead>
+    <tr>
+        <th>Login med din bruger:</th>
+    </tr>
+    </thead>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getName()}"></td>
+        <td><a th:href="@/{userid}/wishlist(userid=${user.getUserID()})}">
+            <button type="button">Log ind</button>
+        </a></td>
+    </tr>
+</table>
+<a th:href="@{/adduser}">
+    <button type="submit">Opret bruger</button>
+</a>
 </body>
 </html>

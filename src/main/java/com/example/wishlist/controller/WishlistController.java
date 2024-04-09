@@ -1,10 +1,15 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.User;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -16,17 +21,22 @@ public class WishlistController {
     }
 
     @GetMapping
-    private String getUser() {
+    private String getUser(Model model) {
+        List<User> userList = wishlistService.getListOfUsers();
+        model.addAttribute("users", userList);
         return "userlist";
     }
 
     @GetMapping("/adduser")
-    private String addUser() {
+    private String addUser(Model model) {
+        model.addAttribute("user", new User());
+    //    model.addAttribute("userID", userID);
         return "adduser";
     }
 
     @PostMapping("/save")
-    private String saveUser() {
+    private String saveUser(@ModelAttribute User newUser) {
+        wishlistService.addNewUser(newUser);
         return "redirect:/userlist";
     }
 
@@ -55,7 +65,7 @@ public class WishlistController {
         return "wishes";
     }
 
-    @GetMapping("/{wishlistid]/addwish")
+    @GetMapping("/{wishlistid}/addwish")
     private String addWish() {
         return "addWish";
     }

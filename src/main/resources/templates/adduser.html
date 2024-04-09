@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Opret bruger</title>
 </head>
 <body>
+<form th:action="@{/save}" th:method="POST" th:object="${user}">
+    <p>
+        <input id="userID" type="hidden" th:field="*{userID}" />
+    </p>
+    <p>
+        <label for="name"> Navn:</label>
+        <input id="name" type="text" th:field="*{name}"/>
+    </p>
 
+    <p>
+        <a th:href="@{/}"> <button type="submit">Opret bruger</button> </a>
+        <a th:href="@{/}"> <button type="button">Tilbage</button> </a>
+    </p>
+
+</form>
 </body>
 </html>
