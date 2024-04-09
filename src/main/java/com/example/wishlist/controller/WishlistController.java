@@ -29,15 +29,16 @@ public class WishlistController {
 
     @GetMapping("/adduser")
     private String addUser(Model model) {
+        String name = "";
         model.addAttribute("user", new User());
-    //    model.addAttribute("userID", userID);
+        model.addAttribute("name", name);
         return "adduser";
     }
 
     @PostMapping("/save")
     private String saveUser(@ModelAttribute User newUser) {
         wishlistService.addNewUser(newUser);
-        return "redirect:/userlist";
+        return "redirect:/";
     }
 
     @GetMapping("/{userid}/wishlist")

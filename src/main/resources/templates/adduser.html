@@ -12,12 +12,12 @@
     </p>
     <p>
         <label for="name"> Navn:</label>
-        <input id="name" type="text" th:field="*{name}"/>
+        <input id="name" type="text" th:field="*{userName}"/>
     </p>
 
     <p>
-        <a th:href="@{/}"> <button type="submit">Opret bruger</button> </a>
-        <a th:href="@{/}"> <button type="button">Tilbage</button> </a>
+        <a th:href="@{/userlist}"> <button type="submit">Opret bruger</button> </a>
+        <a th:href="@{/userlist}"> <button type="button">Tilbage</button> </a>
     </p>
 
 </form>
