@@ -55,7 +55,7 @@ public class WishlistController {
         return "wishes";
     }
 
-    @GetMapping("/{wishlistid]/addwish")
+    @GetMapping("/{wishlistid}/addwish")
     private String addWish() {
         return "addWish";
     }
@@ -67,7 +67,7 @@ public class WishlistController {
 
     @GetMapping("/{wishid}/editwish")
     private String editWish() {
-        return "/editwish";
+        return "editwish";
     }
 
     @PostMapping("/updatewish")

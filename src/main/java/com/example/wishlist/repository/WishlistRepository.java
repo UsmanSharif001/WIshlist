@@ -32,4 +32,5 @@ public class WishlistRepository {
 
     //Metode der sletter ønske på wishID
 
+
 }
