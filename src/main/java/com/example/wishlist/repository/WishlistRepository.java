@@ -5,8 +5,6 @@ import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.util.ConnectionManager;
 import com.example.wishlist.model.User;
-import com.example.wishlist.model.Wish;
-import com.example.wishlist.model.Wishlist;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -16,14 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.sql.*;
 
 
 @Repository
@@ -44,35 +37,22 @@ public class WishlistRepository {
 
 
     //Metode der opretter og gemmer en wishlist i databasen US
-    /*
-    public List<Wishlist> createAndSaveWishlist(int userID, String wishlistName) {
+
+    public List<Wishlist> createWishlist(int userid, String wishlistName) {
         List<Wishlist> wishlists = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
             String insertSQL = "INSERT INTO Wishlist (UserID, Name) VALUES (?, ?);";
-            String selectSQL = "SELECT WishlistID, UserID, Name FROM Wishlist WHERE UserID = ?;";
 
             try (PreparedStatement psInsert = con.prepareStatement(insertSQL)) {
-                psInsert.setInt(1, userID);
+                psInsert.setInt(1, userid);
                 psInsert.setString(2, wishlistName);
                 psInsert.executeUpdate();
             }
-
-            try (PreparedStatement psSelect = con.prepareStatement(selectSQL)) {
-                psSelect.setInt(1, userID);
-                try (ResultSet rs = psSelect.executeQuery()) {
-                    while (rs.next()) {
-                        int id = rs.getInt("Wishid");
-                        String name = rs.getString("Name");
-                        Wishlist wishlist = new Wishlist(id,name, new ArrayList<>());
-                        wishlists.add(wishlist);
-                    }
-                }
-            }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get wishlists for user: " + userID, e);
+            throw new RuntimeException("Failed to create wishlist for user: " + userid, e);
         }
         return wishlists;
-    } */
+    }
 
     //Metode der henter wishlist på userID
 
@@ -164,6 +144,34 @@ public class WishlistRepository {
     }
 
     //Metode der update/edit og gemmer et ønske i databasen
+
+    public void editWish(int wishid, String newName, String newDescription, String newLink, int newPrice, int wishlistid) {
+        try(Connection con = DriverManager.getConnection(db_url,username,pwd)) {
+            String SQL = "UPDATE Wish SET Name = ?, Description ?, " +
+                    "Link ?, Price ? WHERE Wishid = ? AND Wistlistid = ?;";
+            try (PreparedStatement ps = con.prepareStatement(SQL)) {
+                {
+                    ps.setString(1, newName);
+                    ps.setString(2, newDescription);
+                    ps.setString(3, newLink);
+                    ps.setInt(4, newPrice);
+                    ps.setInt(5, wishid);
+                    ps.setInt(6, wishlistid);
+
+                    int rowsAffected = ps.executeUpdate();
+                    if (rowsAffected == 0) {
+                        System.out.println("No wish found with given wishid and wishlistid");
+
+                    }else {
+                        System.out.println("Wish updated succesfully!");
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to edit wish: " + wishid + newName + e);
+        }
+    }
 
     //Metode der sletter ønske på wishID
 
