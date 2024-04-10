@@ -4,10 +4,7 @@ import com.example.wishlist.model.Wish;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("")
@@ -59,8 +56,9 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishlistid}/addwish")
-    public String addWish(Model model) {
+    public String addWish(@PathVariable("wishlistid") int wishlistid, Model model) {
         model.addAttribute("wish", new Wish());
+        model.addAttribute("wishlistid", wishlistid); //OBS: måske den fejler på int/string
         return "addWish";
     }
 

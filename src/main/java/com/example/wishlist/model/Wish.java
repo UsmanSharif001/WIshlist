@@ -6,6 +6,7 @@ public class Wish {
     private String description;
     private String link;
     private int price;
+    private int wishlistID;
 
     public Wish(String name, String description, String link, int price){
         this.name = name;
@@ -49,4 +50,11 @@ public class Wish {
         this.price = price;
     }
 
+    public int getWishlistID() {
+        return wishlistID;
+    }
+
+    public void setWishlistID(int wishlistID) {
+        this.wishlistID = wishlistID;
+    }
 }

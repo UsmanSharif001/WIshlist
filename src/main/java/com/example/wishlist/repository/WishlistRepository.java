@@ -35,13 +35,13 @@ public class WishlistRepository {
     //Metode der opretter og gemmer et ønske i databasen - Mu
     public void addWish(Wish wish){
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)){
-            String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?);";
-            //Hvordan får jeg fat i wishlistID?
+            String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?, ?);";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setString(1, wish.getName());
             ps.setString(2, wish.getDescription());
             ps.setString(3, wish.getLink());
             ps.setInt(4, wish.getPrice());
+            ps.setInt(5, wish.getWishlistID());
 
             ps.executeUpdate();
 
