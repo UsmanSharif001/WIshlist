@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Title</title>
+    <title>Ønskelister</title>
 </head>
 <body>
+<h1> Ønskelister </h1>
+<table>
+    <thead>
+    <tr>
+        <th>Navn</th>
+    </tr>
+    </thead>
+<tbody>
+<tr th:each="wishlist : ${wishlists}">
+    <td> <a th:href="@{/{wishlistid}/wishes(wishlistid=${wishlist.id})}" th:text="${wishlist.name}"/> </td>
+</tr>
+</tbody>
+</table>
+
 
 </body>
 </html>

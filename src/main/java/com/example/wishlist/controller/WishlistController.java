@@ -3,6 +3,7 @@ package com.example.wishlist.controller;
 import com.example.wishlist.model.User;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,33 +42,35 @@ public class WishlistController {
     }
 
     @PostMapping("/save")
-    private String saveUser(@ModelAttribute User newUser) {
+    public String saveUser(@ModelAttribute User newUser) {
         wishlistService.addNewUser(newUser);
         return "redirect:/";
     }
 
     @GetMapping("/{userid}/wishlist")
-    private String getWishlist() {
+    public String getWishlist(@PathVariable int userid, Model model) {
+        List<Wishlist> wishlists = wishlistService.getWishlists(userid);
+        model.addAttribute("wishlists", wishlists);
         return "wishlist";
     }
 
     @GetMapping("/{userid}/addwishlist")
-    private String addWishlist() {
+    public String addWishlist() {
         return "addwishlist";
     }
 
     @PostMapping("/savewishlist")
-    private String saveWishlist() {
+    public String saveWishlist() {
         return "redirect:/wishlist";
     }
 
     @GetMapping("/{userid}/deletewishlist")
-    private String deleteWishlist() {
+    public String deleteWishlist() {
         return "redirect:/wishlist";
     }
 
     @GetMapping("/{wishlistid}/wishes")
-    private String getWishes() {
+    public String getWishes() {
         return "wishes";
     }
 
@@ -84,17 +88,17 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishid}/editwish")
-    private String editWish() {
+    public String editWish() {
         return "editwish";
     }
 
     @PostMapping("/updatewish")
-    private String updateWish() {
+    public String updateWish() {
         return "redirect/wishes";
     }
 
     @GetMapping("/{wishid}/deletewish")
-    private String deleteWish() {
+    public String deleteWish() {
         return "redirect/wishes";
     }
 }
