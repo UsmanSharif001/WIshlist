@@ -1,11 +1,10 @@
 package com.example.wishlist.controller;
 
-import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,13 +25,16 @@ public class WishlistController {
     }
 
     @GetMapping("/adduser")
-    public String addUser() {
-        return "adduser";
-    }
+    private String addUser(Model model) {
+        String name = "";
+        model.addAttribute("user", new User());
+        model.addAttribute("name", name);
+
 
     @PostMapping("/save")
-    public String saveUser() {
-        return "redirect:/userlist";
+    private String saveUser(@ModelAttribute User newUser) {
+        wishlistService.addNewUser(newUser);
+        return "redirect:/";
     }
 
     @GetMapping("/{userid}/wishlist")

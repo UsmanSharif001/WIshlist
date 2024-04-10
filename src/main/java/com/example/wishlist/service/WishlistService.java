@@ -15,6 +15,17 @@ private WishlistRepository repository;
 public WishlistService(WishlistRepository repository) {
     this.repository = repository;
 }
+    public List<User> getListOfUsers() {
+    return repository.getListOfUsers();
+    }
+
+    public int getUserID(String name) {
+    return repository.getUserID(name);
+    }
+
+    public void addNewUser(User newUser) {
+        repository.addNewUser(newUser);
+    }
 
 public List<Wishlist> getWishlists(int userId){
    return repository.getWishlists(userId);
