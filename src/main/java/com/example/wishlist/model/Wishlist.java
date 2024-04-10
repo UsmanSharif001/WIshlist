@@ -1,5 +1,6 @@
 package com.example.wishlist.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Wishlist {
@@ -17,6 +18,9 @@ public class Wishlist {
     }
 
     public void addWish(Wish wish){
+        if (wishList == null) {
+            wishList = new ArrayList<>();
+        }
         wishList.add(wish);
     }
 
