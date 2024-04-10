@@ -44,6 +44,7 @@ public class WishlistRepository {
 
 
     //Metode der opretter og gemmer en wishlist i databasen US
+    /*
     public List<Wishlist> createAndSaveWishlist(int userID, String wishlistName) {
         List<Wishlist> wishlists = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
@@ -70,7 +71,7 @@ public class WishlistRepository {
             throw new RuntimeException("Failed to get wishlists for user: " + userID, e);
         }
         return wishlists;
-    }
+    } */
 
     //Metode der henter wishlist på userID
 
@@ -106,6 +107,40 @@ public class WishlistRepository {
     //Metode der opretter og gemmer en wishlist i databasen US
 
     //Metode der sletter en liste på UserID
+
+    public boolean deleteWishlist(int wishlistID){
+        return deleteWishFromTable(wishlistID) && deleteWishlistFromTable(wishlistID);
+    }
+    public boolean deleteWishFromTable(int wishlistId){
+    int rows = 0;
+    Connection connection = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                DELETE FROM wish WHERE wishlistid = ?
+                """;
+        try(PreparedStatement ps = connection.prepareStatement(SQL)){
+            ps.setInt(1,wishlistId);
+            rows = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rows >=0;
+    }
+
+    public boolean deleteWishlistFromTable(int wishlistID){
+        int rows = 0;
+        Connection connection = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                DELETE FROM wishlist WHERE wishlistid = ?
+                """;
+        try(PreparedStatement ps = connection.prepareStatement(SQL)){
+            ps.setInt(1,wishlistID);
+            rows = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rows == 1;
+    }
+
 
     //Metode der getWishes??? (burde den hedde get wish?)
 

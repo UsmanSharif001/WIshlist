@@ -37,4 +37,8 @@ public List<Wishlist> getWishlists(int userId){
    return repository.getWishlists(userId);
 }
 
+public boolean deleteWishlist(int wishlistId){
+    return repository.deleteWishlist(wishlistId);
+}
+
 }

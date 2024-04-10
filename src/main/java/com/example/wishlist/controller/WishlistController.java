@@ -64,9 +64,10 @@ public class WishlistController {
         return "redirect:/wishlist";
     }
 
-    @GetMapping("/{userid}/deletewishlist")
-    public String deleteWishlist() {
-        return "redirect:/wishlist";
+    @GetMapping("{userid}/delete/{wishlistid}")
+    public String deleteWishlist(@PathVariable int userid,@PathVariable int wishlistid) {
+        wishlistService.deleteWishlist(wishlistid);
+        return "redirect:/" + userid + "/wishlist";
     }
 
     @GetMapping("/{wishlistid}/wishes")
