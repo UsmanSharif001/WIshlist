@@ -1,10 +1,19 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.User;
+import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -16,18 +25,24 @@ public class WishlistController {
     }
 
     @GetMapping
-    private String getUser() {
+    private String getUser(Model model) {
+        List<User> userList = wishlistService.getListOfUsers();
+        model.addAttribute("users", userList);
         return "userlist";
     }
 
     @GetMapping("/adduser")
-    private String addUser() {
+    private String addUser(Model model) {
+        String name = "";
+        model.addAttribute("user", new User());
+        model.addAttribute("name", name);
         return "adduser";
     }
 
     @PostMapping("/save")
-    private String saveUser() {
-        return "redirect:/userlist";
+    private String saveUser(@ModelAttribute User newUser) {
+        wishlistService.addNewUser(newUser);
+        return "redirect:/";
     }
 
     @GetMapping("/{userid}/wishlist")
@@ -70,7 +85,7 @@ public class WishlistController {
 
     @GetMapping("/{wishid}/editwish")
     private String editWish() {
-        return "/editwish";
+        return "editwish";
     }
 
     @PostMapping("/updatewish")
