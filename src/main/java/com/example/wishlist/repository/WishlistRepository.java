@@ -1,10 +1,8 @@
 package com.example.wishlist.repository;
 
 
-import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.util.ConnectionManager;
-import com.mysql.cj.protocol.Resultset;
 import com.example.wishlist.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -17,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Repository
 public class WishlistRepository {
