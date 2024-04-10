@@ -60,8 +60,9 @@ public class WishlistRepository {
                 psSelect.setInt(1, userID);
                 try (ResultSet rs = psSelect.executeQuery()) {
                     while (rs.next()) {
+                        int id = rs.getInt("Wishid");
                         String name = rs.getString("Name");
-                        Wishlist wishlist = new Wishlist(name, new ArrayList<>());
+                        Wishlist wishlist = new Wishlist(id,name, new ArrayList<>());
                         wishlists.add(wishlist);
                     }
                 }
