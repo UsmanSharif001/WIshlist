@@ -143,7 +143,7 @@ public class WishlistRepository {
         }
     }
 
-    //Metode der update/edit og gemmer et ønske i databasen
+    //Metoade der update/edit og gemmer et ønske i databasen
 
     public void editWish(int wishid, String newName, String newDescription, String newLink, int newPrice, int wishlistid) {
         try(Connection con = DriverManager.getConnection(db_url,username,pwd)) {
