@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Tilføj ønske</title>
 </head>
 <body>
+<form th:action="@{/savewish}" th:method="POST" th:object="${wish}">
+    <p>
+        <label for="name"> Navn: </label>
+        <input id="name" type="text" th:field="*{name}">
+    </p>
+    <p>
+        <label for="description"> Beskrivelse: </label>
+        <input id="description" type="text" th:field="*{description}">
+    </p>
+    <p>
+        <label for="link"> Link: </label>
+        <input id="link" type="text" th:field="*{link}">
+    </p>
+    <p>
+        <label for="price"> Pris: </label>
+        <input id="price" type="text" th:field="*{price}">
+    </p>
+    <p>
+        <input type="hidden" id="wishlistid" th:field="*{wishlistID}" th:value="${wishlistid}">
+    </p>
+
+    <p>
+        <a th:href="@{/wishes}"> <button type="submit">Tilføj ønske</button> </a>
+        <a th:href="@{/wishes}"> <button type="button">Tilbage</button> </a>
+    </p>
+</form>
 
 </body>
 </html>
