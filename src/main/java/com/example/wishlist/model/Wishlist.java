@@ -9,13 +9,7 @@ public class Wishlist {
     private String name;
     private List<Wish> wishList;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Wishlist(int id, String name, List<Wish> wishList) {
         this.id = id;
@@ -53,6 +47,14 @@ public class Wishlist {
 
     public void setWishList(List<Wish> wishList) {
         this.wishList = wishList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 
