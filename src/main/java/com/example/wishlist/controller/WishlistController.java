@@ -33,62 +33,62 @@ public class WishlistController {
     }
 
 
-        @PostMapping("/save")
-        public String saveUser (@ModelAttribute User newUser){
-            wishlistService.addNewUser(newUser);
-            return "redirect:/";
-        }
+    @PostMapping("/save")
+    public String saveUser(@ModelAttribute User newUser) {
+        wishlistService.addNewUser(newUser);
+        return "redirect:/";
+    }
 
-        @GetMapping("/{userid}/wishlist")
-        public String getWishlist (@PathVariable int userid, Model model){
-            List<Wishlist> wishlists = wishlistService.getWishlists(userid);
-            model.addAttribute("wishlists", wishlists);
-            return "wishlist";
-        }
+    @GetMapping("/{userid}/wishlist")
+    public String getWishlist(@PathVariable int userid, Model model) {
+        List<Wishlist> wishlists = wishlistService.getWishlists(userid);
+        model.addAttribute("wishlists", wishlists);
+        return "wishlist";
+    }
 
-        @GetMapping("/{userid}/addwishlist")
-        public String addWishlist () {
-            return "addwishlist";
-        }
+    @GetMapping("/{userid}/addwishlist")
+    public String addWishlist() {
+        return "addwishlist";
+    }
 
-        @PostMapping("/savewishlist")
-        public String saveWishlist () {
-            return "redirect:/wishlist";
-        }
+    @PostMapping("/savewishlist")
+    public String saveWishlist() {
+        return "redirect:/wishlist";
+    }
 
-        @GetMapping("/{userid}/deletewishlist")
-        public String deleteWishlist () {
-            return "redirect:/wishlist";
-        }
+    @GetMapping("/{userid}/deletewishlist")
+    public String deleteWishlist() {
+        return "redirect:/wishlist";
+    }
 
-        @GetMapping("/{wishlistid}/wishes")
-        public String getWishes () {
-            return "wishes";
-        }
+    @GetMapping("/{wishlistid}/wishes")
+    public String getWishes() {
+        return "wishes";
+    }
 
-        @GetMapping("/{wishlistid}/addwish")
-        public String addWish () {
-            return "addWish";
-        }
+    @GetMapping("/{wishlistid}/addwish")
+    public String addWish() {
+        return "addWish";
+    }
 
-        @PostMapping("/savewish")
-        public String saveWish () {
-            return "redirect/wishes";
-        }
+    @PostMapping("/savewish")
+    public String saveWish() {
+        return "redirect/wishes";
+    }
 
-        @GetMapping("/{wishid}/editwish")
-        public String editWish () {
-            return "editwish";
-        }
+    @GetMapping("/{wishid}/editwish")
+    public String editWish() {
+        return "editwish";
+    }
 
-        @PostMapping("/updatewish")
-        public String updateWish () {
-            return "redirect/wishes";
-        }
+    @PostMapping("/updatewish")
+    public String updateWish() {
+        return "redirect/wishes";
+    }
 
-        @GetMapping("/{wishid}/deletewish")
-        public String deleteWish () {
-            return "redirect/wishes";
-        }
+    @GetMapping("/{wishid}/deletewish")
+    public String deleteWish() {
+        return "redirect/wishes";
+    }
 
 }
