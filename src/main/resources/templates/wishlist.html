@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
     <title>Ønskelister</title>
 </head>
 <body>
@@ -20,7 +21,7 @@
 </tbody>
 </table>
 
-<button> Tilføj Ønskeliste</button>
-<a th:href="@{/}"> <button> Tilbage </button></a>
+<a th:href="@{/{userid}/addwishlist}"> <button type="submit"> Tilføj Ønskeliste</button></a>
+<a th:href="@{/}"> <button type="submit"> Tilbage </button></a>
 </body>
 </html>

@@ -35,7 +35,6 @@ public class WishlistRepository {
 
     //Metode der henter wishlist på userID - Nikolaj
 
-
     //Metode der opretter og gemmer en wishlist i databasen US
 
     public List<Wishlist> createWishlist(int userid, String wishlistName) {
