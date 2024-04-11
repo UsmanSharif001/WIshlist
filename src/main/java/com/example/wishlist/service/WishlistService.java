@@ -41,4 +41,11 @@ public boolean deleteWishlist(int wishlistId){
     return repository.deleteWishlist(wishlistId);
 }
 
+public void updateWish(Wish wish) {
+    repository.editWish(wish);
+}
+public List<Wishlist> createWishlist(int userid, String wishlistName) {
+    return repository.createWishlist(userid, wishlistName);
+}
+
 }
