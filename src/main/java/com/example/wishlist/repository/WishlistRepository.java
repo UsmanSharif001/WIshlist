@@ -48,18 +48,6 @@ public class WishlistRepository {
                 psInsert.setString(2, wishlistName);
                 psInsert.executeUpdate();
             }
-
-            try (PreparedStatement psSelect = con.prepareStatement(selectSQL)) {
-                psSelect.setInt(1, userID);
-                try (ResultSet rs = psSelect.executeQuery()) {
-                    while (rs.next()) {
-                        int id = rs.getInt("Wishid");
-                        String name = rs.getString("Name");
-                        Wishlist wishlist = new Wishlist(id,name, new ArrayList<>());
-                        wishlists.add(wishlist);
-                    }
-                }
-            }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create wishlist for user: " + userid, e);
         }
@@ -68,20 +56,20 @@ public class WishlistRepository {
 
     //Metode der henter wishlist på userID
 
-    public List<Wishlist> getWishlists(int userId){
+    public List<Wishlist> getWishlists(int userId) {
         List<Wishlist> wishlistList = new ArrayList<>();
-        Connection connection = ConnectionManager.getConnection(db_url,username,pwd);
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 SELECT name,wishlistid
                 FROM wishlist
                 WHERE userid = ?
                 """;
 
-        try(PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 Wishlist wishlist = new Wishlist(
                         rs.getInt("Wishlistid"),
                         rs.getString("Name")
@@ -101,32 +89,33 @@ public class WishlistRepository {
 
     //Metode der sletter en liste på UserID
 
-    public boolean deleteWishlist(int wishlistID){
+    public boolean deleteWishlist(int wishlistID) {
         return deleteWishFromTable(wishlistID) && deleteWishlistFromTable(wishlistID);
     }
-    public boolean deleteWishFromTable(int wishlistId){
-    int rows = 0;
-    Connection connection = ConnectionManager.getConnection(db_url,username,pwd);
+
+    public boolean deleteWishFromTable(int wishlistId) {
+        int rows = 0;
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 DELETE FROM wish WHERE wishlistid = ?
                 """;
-        try(PreparedStatement ps = connection.prepareStatement(SQL)){
-            ps.setInt(1,wishlistId);
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, wishlistId);
             rows = ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rows >=0;
+        return rows >= 0;
     }
 
-    public boolean deleteWishlistFromTable(int wishlistID){
+    public boolean deleteWishlistFromTable(int wishlistID) {
         int rows = 0;
-        Connection connection = ConnectionManager.getConnection(db_url,username,pwd);
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 DELETE FROM wishlist WHERE wishlistid = ?
                 """;
-        try(PreparedStatement ps = connection.prepareStatement(SQL)){
-            ps.setInt(1,wishlistID);
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, wishlistID);
             rows = ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -137,9 +126,36 @@ public class WishlistRepository {
 
     //Metode der getWishes??? (burde den hedde get wish?)
 
+    public List<Wish> getListOfWishes(int wishlistID) {
+        List<Wish> listOfWishes = new ArrayList<>();
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = """
+                SELECT Name,Description,Link,Price 
+                FROM wish
+                WHERE wishlistid = ?
+                """;
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, wishlistID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                String description = rs.getString("Description");
+                String link = rs.getString("Link");
+                int price = rs.getInt("Price");
+                Wish wish = new Wish(name, description, link, price);
+                listOfWishes.add(wish);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listOfWishes;
+    }
+
     //Metode der opretter og gemmer et ønske i databasen - Mu
-    public void addWish(Wish wish){
-        try (Connection connection = DriverManager.getConnection(db_url, username, pwd)){
+    public void addWish(Wish wish) {
+        try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
             String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?, ?);";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setString(1, wish.getName());
@@ -158,7 +174,7 @@ public class WishlistRepository {
     //Metoade der update/edit og gemmer et ønske i databasen
 
     public void editWish(Wish wish) {
-        try(Connection con = DriverManager.getConnection(db_url,username,pwd)) {
+        try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
             String SQL = "UPDATE Wish SET Name = ?, Description ?, " +
                     "Link ?, Price ? WHERE Wishid = ?;";
             try (PreparedStatement ps = con.prepareStatement(SQL)) {
@@ -172,7 +188,7 @@ public class WishlistRepository {
                     if (rowsAffected == 0) {
                         System.out.println("No wish found with given wishid and wishlistid");
 
-                    }else {
+                    } else {
                         System.out.println("Wish updated succesfully!");
                     }
                 }
