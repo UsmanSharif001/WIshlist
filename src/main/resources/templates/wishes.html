@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Title</title>
+    <title>Ønsker</title>
 </head>
 <body>
+<h1> Ønsker:</h1>
+<table>
+    <thead>
+    <tr>
+        <th> Navn</th>
+        <th> Beskrivelse</th>
+        <th> Link</th>
+        <th> Pris</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="wish : ${listOfWishes}">
+        <td th:text="${wish.name}"></td>
+        <td th:text="${wish.description}"></td>
+        <td th:text="${wish.link}"></td>
+        <td th:text="${wish.price}"></td>
+        <td>
+            <button> Tilføj Ønske</button>
+            <button> Ret Ønske</button>
+            <button> Slet Ønske</button>
 
+        </td>
+    </tr>
+    </tbody>
+</table>
+ <button> Tilbage</button>
+</a>
 </body>
 </html>
