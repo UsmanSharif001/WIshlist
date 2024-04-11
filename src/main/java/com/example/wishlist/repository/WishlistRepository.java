@@ -145,18 +145,16 @@ public class WishlistRepository {
 
     //Metoade der update/edit og gemmer et ønske i databasen
 
-    public void editWish(int wishid, String newName, String newDescription, String newLink, int newPrice, int wishlistid) {
+    public void editWish(Wish wish) {
         try(Connection con = DriverManager.getConnection(db_url,username,pwd)) {
             String SQL = "UPDATE Wish SET Name = ?, Description ?, " +
-                    "Link ?, Price ? WHERE Wishid = ? AND Wistlistid = ?;";
+                    "Link ?, Price ? WHERE Wishid = ?;";
             try (PreparedStatement ps = con.prepareStatement(SQL)) {
                 {
-                    ps.setString(1, newName);
-                    ps.setString(2, newDescription);
-                    ps.setString(3, newLink);
-                    ps.setInt(4, newPrice);
-                    ps.setInt(5, wishid);
-                    ps.setInt(6, wishlistid);
+                    ps.setString(1, wish.getName());
+                    ps.setString(2, wish.getDescription());
+                    ps.setString(3, wish.getLink());
+                    ps.setInt(4, wish.getPrice());
 
                     int rowsAffected = ps.executeUpdate();
                     if (rowsAffected == 0) {
@@ -169,7 +167,7 @@ public class WishlistRepository {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to edit wish: " + wishid + newName + e);
+            throw new RuntimeException("Failed to edit wish: " + wish.getName() + e);
         }
     }
 
