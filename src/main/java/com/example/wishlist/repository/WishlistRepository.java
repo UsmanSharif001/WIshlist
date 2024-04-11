@@ -44,7 +44,7 @@ public class WishlistRepository {
 
 
     //Metode der opretter og gemmer en wishlist i databasen US
-    /*
+
     public List<Wishlist> createAndSaveWishlist(int userID, String wishlistName) {
         List<Wishlist> wishlists = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
@@ -72,7 +72,7 @@ public class WishlistRepository {
             throw new RuntimeException("Failed to get wishlists for user: " + userID, e);
         }
         return wishlists;
-    } */
+    }
 
     //Metode der henter wishlist på userID
 
