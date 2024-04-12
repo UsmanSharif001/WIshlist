@@ -50,7 +50,6 @@ public class WishlistController {
     @GetMapping("/{userid}/wishlist")
     public String getWishlist(@PathVariable int userid, Model model) {
         List<Wishlist> wishlists = wishlistService.getWishlists(userid);
-
         model.addAttribute("wishlists", wishlists);
         return "wishlist";
     }
@@ -71,10 +70,11 @@ public class WishlistController {
         return "redirect:/" + userid + "/wishlist";
     }
 
-    @GetMapping("/{wishlistid}/wishes")
-    public String getWishes(@PathVariable int wishlistid, Model model) {
+    @GetMapping("{userID}/{wishlistid}/wishes")
+    public String getWishes(@PathVariable int wishlistid, @PathVariable int userID, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     model.addAttribute("listOfWishes", listOfWishes);
+    model.addAttribute("userID", userID);
         return "wishes";
     }
 

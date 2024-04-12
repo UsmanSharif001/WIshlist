@@ -23,15 +23,14 @@
         <td th:text="${wish.link}"></td>
         <td th:text="${wish.price}"></td>
         <td>
-            <button> Tilføj Ønske</button>
-            <button> Ret Ønske</button>
-            <button> Slet Ønske</button>
+            <a th:href="@{/{wishid}/editwish}"> <button type="submit"> Ret Ønske </button></a>
+            <a th:href="@{/{wishid}/deletewish}"> <button> Slet Ønske </button></a>
 
         </td>
     </tr>
+    <a th:href="@{/{wishlistid}/addwish}"> <button type="submit"> Tilføj Ønske </button></a>
     </tbody>
 </table>
- <button> Tilbage</button>
-</a>
+<a th:href="@{/wishlist}"><button  type="submit"> Tilbage </button></a>
 </body>
 </html>
