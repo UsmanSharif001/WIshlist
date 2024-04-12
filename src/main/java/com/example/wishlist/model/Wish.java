@@ -7,6 +7,7 @@ public class Wish {
     private String link;
     private int price;
     private int wishlistID;
+    private int wishID;
 
     public Wish(String name, String description, String link, int price){
         this.name = name;
@@ -56,5 +57,13 @@ public class Wish {
 
     public void setWishlistID(int wishlistID) {
         this.wishlistID = wishlistID;
+    }
+
+    public int getWishID() {
+        return wishID;
+    }
+
+    public void setWishID(int wishID) {
+        this.wishID = wishID;
     }
 }

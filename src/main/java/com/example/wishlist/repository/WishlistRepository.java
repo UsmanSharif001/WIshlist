@@ -142,6 +142,7 @@ public class WishlistRepository {
                 String description = rs.getString("Description");
                 String link = rs.getString("Link");
                 int price = rs.getInt("Price");
+             //   int wishID = rs.getInt("wishid");
                 Wish wish = new Wish(name, description, link, price);
                 listOfWishes.add(wish);
             }
@@ -155,8 +156,12 @@ public class WishlistRepository {
     //Metode der opretter og gemmer et ønske i databasen - Mu
     public void addWish(Wish wish) {
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
-            String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(SQL);
+            if (!wishlistExists(connection, wish.getWishlistID())) {
+                throw new IllegalArgumentException("Wishlist med ID: " + wish.getWishlistID() + " findes ikke.");
+            }
+            String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES(?, ?, ?, ?, ?);";
+            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
             ps.setString(1, wish.getName());
             ps.setString(2, wish.getDescription());
             ps.setString(3, wish.getLink());
@@ -165,12 +170,20 @@ public class WishlistRepository {
 
             ps.executeUpdate();
 
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int wishID = generatedKeys.getInt(1);
+                    wish.setWishID(wishID);
+                } else {
+                    throw new SQLException("Kunne ikke finde det genererede wishID.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    //Metoade der update/edit og gemmer et ønske i databasen
+    //Metode der update/edit og gemmer et ønske i databasen
 
     public void editWish(Wish wish) {
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
@@ -249,7 +262,7 @@ public class WishlistRepository {
 
             pstmt.executeUpdate();
 
-            // set attractionID
+            // set userID
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             int userID = -1;
             if (generatedKeys.next()) {
@@ -278,5 +291,13 @@ public class WishlistRepository {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    private boolean wishlistExists(Connection connection, int wishlistID) throws SQLException {
+        String SQL = "SELECT Wishlistid FROM wishlist WHERE Wishlistid = ?";
+        PreparedStatement ps = connection.prepareStatement(SQL);
+        ps.setInt(1, wishlistID);
+        ResultSet rs = ps.executeQuery();
+        return rs.next(); // Returnerer true hvis wishlist med et givent ID findes
     }
 }

@@ -80,16 +80,18 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishlistid}/addwish")
-    public String addWish(@PathVariable("wishlistid") int wishlistid, Model model) {
+    public String addWish(@PathVariable int wishlistid, Model model) {
         model.addAttribute("wish", new Wish());
-        model.addAttribute("wishlistid", wishlistid); //OBS: måske den fejler på int/string
+        model.addAttribute("wishlistid", wishlistid);
         return "addWish";
     }
 
-    @PostMapping("/savewish")
-    public String saveWish(@ModelAttribute Wish newWish) {
+    @PostMapping("/{wishlistid}/savewish")
+    public String saveWish(@PathVariable int wishlistid, @ModelAttribute Wish newWish, Model model) {
+        newWish.setWishlistID(wishlistid);
+        model.addAttribute("wishlistid", wishlistid);
         wishlistService.addWish(newWish);
-        return "redirect/wishes";
+        return "redirect:/" + wishlistid + "/wishes";
     }
 
     @GetMapping("/{wishid}/editwish")
