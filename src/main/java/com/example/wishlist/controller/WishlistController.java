@@ -70,7 +70,7 @@ public class WishlistController {
         return "redirect:/" + userid + "/wishlist";
     }
 
-    @GetMapping("{wishlistid}/wishes")
+    @GetMapping("/{wishlistid}/wishes")
     public String getWishes(@PathVariable int wishlistid, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     int userID = wishlistService.getUserIdFromWishlist(wishlistid);
@@ -80,13 +80,13 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishlistid}/addwish")
-    public String addWish(@PathVariable("wishlistid") int wishlistid, Model model) {
+    public String addWish(@PathVariable int wishlistid, Model model) {
         model.addAttribute("wish", new Wish());
         model.addAttribute("wishlistid", wishlistid); //OBS: måske den fejler på int/string
         return "addWish";
     }
 
-    @PostMapping("/savewish")
+    @PostMapping("/{wishlistid}/savewish")
     public String saveWish(@ModelAttribute Wish newWish) {
         wishlistService.addWish(newWish);
         return "redirect/wishes";

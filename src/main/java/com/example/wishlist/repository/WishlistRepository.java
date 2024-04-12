@@ -156,7 +156,7 @@ public class WishlistRepository {
     public void addWish(Wish wish) {
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
             String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(SQL);
+            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, wish.getName());
             ps.setString(2, wish.getDescription());
             ps.setString(3, wish.getLink());
@@ -165,13 +165,20 @@ public class WishlistRepository {
 
             ps.executeUpdate();
 
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            int wishID = -1;
+
+            if (generatedKeys.next()) {
+                wishID = generatedKeys.getInt(1);
+                wish.setWishid(wishID);
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     //Metoade der update/edit og gemmer et ønske i databasen
-
     public void editWish(Wish wish) {
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
             String SQL = "UPDATE Wish SET Name = ?, Description ?, " +
