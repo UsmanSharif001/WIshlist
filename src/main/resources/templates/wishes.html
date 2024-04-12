@@ -21,18 +21,27 @@
         <td th:text="${wish.name}"></td>
         <td th:text="${wish.description}"></td>
         <td>
-            <a th:href="${wish.link.startsWith('http://') || wish.link.startsWith('https://') ? wish.link : 'http://' + wish.link}" th:text="Link">Link</a>
+            <a th:href="${wish.link.startsWith('http://') || wish.link.startsWith('https://') ? wish.link : 'http://' + wish.link}"
+               th:text="Link">Link</a>
         </td>
-        <td th:text="${wish.price}"></td>
+        <td th:text="${wish.price} + ' kr.'"></td>
         <td>
-            <a th:href="@{/{wishid}/editwish}"> <button type="submit"> Ret Ønske </button></a>
-            <a th:href="@{/{wishid}/deletewish}"> <button> Slet Ønske </button></a>
+            <a th:href="@{/{wishid}/editwish}">
+                <button type="submit"> Ret Ønske</button>
+            </a>
+            <a th:href="@{/{wishid}/deletewish}">
+                <button> Slet Ønske</button>
+            </a>
 
         </td>
     </tr>
-    <a th:href="@{/{wishlistid}/addwish}"> <button type="submit"> Tilføj Ønske </button></a>
     </tbody>
 </table>
-<a th:href="@{/{userid}/wishlist(userid=${userID})}"><button  type="submit"> Tilbage </button></a>
+<a th:href="@{/{wishlistid}/addwish}">
+    <button type="submit"> Tilføj Ønske</button>
+</a>
+<a th:href="@{/{userid}/wishlist(userid=${userID})}">
+    <button type="submit"> Tilbage</button>
+</a>
 </body>
 </html>
