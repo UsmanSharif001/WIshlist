@@ -74,6 +74,7 @@ public class WishlistController {
     public String getWishes(@PathVariable int wishlistid, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     int userID = wishlistService.getUserIdFromWishlist(wishlistid);
+    //Mikkel code
     model.addAttribute("listOfWishes", listOfWishes);
     model.addAttribute("userID", userID);
         return "wishes";
@@ -87,9 +88,10 @@ public class WishlistController {
     }
 
     @PostMapping("/{wishlistid}/savewish")
-    public String saveWish(@ModelAttribute Wish newWish) {
+    public String saveWish(@ModelAttribute Wish newWish, @PathVariable int wishlistid) {
+        newWish.setWishlistID(wishlistid);
         wishlistService.addWish(newWish);
-        return "redirect/wishes";
+        return "redirect:/" + wishlistid + "/wishes";
     }
 
     @GetMapping("/{wishid}/editwish")

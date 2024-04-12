@@ -29,11 +29,6 @@ public class WishlistRepository {
     @Value("${spring.datasource.password}")
     private String pwd;
 
-    //Metode der henter liste af users fra databasen - Thea
-
-    //Metode der opretter og gemmer en user i databasen
-
-    //Metode der henter wishlist på userID - Nikolaj
 
     //Metode der opretter og gemmer en wishlist i databasen US
 
@@ -53,7 +48,7 @@ public class WishlistRepository {
         return wishlists;
     }
 
-    //Metode der henter wishlist på userID
+    //Metode der henter wishlists på userID
 
     public List<Wishlist> getWishlists(int userId) {
         List<Wishlist> wishlistList = new ArrayList<>();
@@ -83,15 +78,12 @@ public class WishlistRepository {
     }
 
 
-    //Metode der opretter og gemmer en wishlist i databasen
-    //Metode der opretter og gemmer en wishlist i databasen US
-
     //Metode der sletter en liste på UserID
-
     public boolean deleteWishlist(int wishlistID) {
         return deleteWishFromTable(wishlistID) && deleteWishlistFromTable(wishlistID);
     }
 
+    //Metode der sletter ønske på wishID
     public boolean deleteWishFromTable(int wishlistId) {
         int rows = 0;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
@@ -123,8 +115,7 @@ public class WishlistRepository {
     }
 
 
-    //Metode der getWishes??? (burde den hedde get wish?)
-
+    //Metode der getWishes
     public List<Wish> getListOfWishes(int wishlistID) {
         List<Wish> listOfWishes = new ArrayList<>();
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
@@ -156,7 +147,7 @@ public class WishlistRepository {
     public void addWish(Wish wish) {
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
             String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES( ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setString(1, wish.getName());
             ps.setString(2, wish.getDescription());
             ps.setString(3, wish.getLink());
@@ -164,14 +155,6 @@ public class WishlistRepository {
             ps.setInt(5, wish.getWishlistID());
 
             ps.executeUpdate();
-
-            ResultSet generatedKeys = ps.getGeneratedKeys();
-            int wishID = -1;
-
-            if (generatedKeys.next()) {
-                wishID = generatedKeys.getInt(1);
-                wish.setWishid(wishID);
-            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -205,8 +188,8 @@ public class WishlistRepository {
         }
     }
 
-    //Metode der sletter ønske på wishID
 
+    //Metode der returnerer listen af users
     public List<User> getListOfUsers() {
         List<User> userList = new ArrayList<>();
 
@@ -230,6 +213,7 @@ public class WishlistRepository {
         return userList;
     }
 
+    //Metode der returnerer userID
     public int getUserID(String userName) {
         int userID = 0;
 
@@ -246,6 +230,7 @@ public class WishlistRepository {
         return userID;
     }
 
+    //Metode der opretter en ny user
     public void addNewUser(User newUser) {
 
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
@@ -268,6 +253,8 @@ public class WishlistRepository {
         }
     }
 
+
+    //Metode der returnerer userID fra wishlist tabel på whistlistID
     public int getUserIdFromWishlistTable(int wishlistId){
         Connection con = ConnectionManager.getConnection(db_url,username,pwd);
         String SQL = """

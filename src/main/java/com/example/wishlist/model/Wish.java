@@ -2,15 +2,13 @@ package com.example.wishlist.model;
 
 public class Wish {
 
-    private int wishid;
     private String name;
     private String description;
     private String link;
     private int price;
     private int wishlistID;
 
-    public Wish(int wishid, String name, String description, String link, int price, int wishlistID){
-        this.wishid = wishid;
+    public Wish(String name, String description, String link, int price, int wishlistID){
         this.name = name;
         this.description = description;
         this.link = link;
@@ -68,11 +66,5 @@ public class Wish {
         this.wishlistID = wishlistID;
     }
 
-    public int getWishid() {
-        return wishid;
-    }
 
-    public void setWishid(int wishid) {
-        this.wishid = wishid;
-    }
 }

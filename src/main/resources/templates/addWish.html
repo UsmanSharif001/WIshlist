@@ -24,7 +24,7 @@
     <input id="price" type="text" th:field="*{price}">
   </p>
   <p>
-    <input type="hidden" id="wishlistID" th:field="*{wishlistID}" th:value="${wishlistid}">
+    <input type="hidden" id="wishlistID" th:value="${wishlistid}" th:field="*{wishlistID}">
   </p>
   <a th:href="@{/{wishlistid}/wishes(wishlistid=${wishlistid})}"> <button type="submit">Tilføj ønske</button> </a>
 </form>
