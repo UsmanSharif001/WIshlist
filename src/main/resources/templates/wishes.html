@@ -20,7 +20,9 @@
     <tr th:each="wish : ${listOfWishes}">
         <td th:text="${wish.name}"></td>
         <td th:text="${wish.description}"></td>
-        <td th:text="${wish.link}"></td>
+        <td>
+            <a th:href="${wish.link.startsWith('http://') || wish.link.startsWith('https://') ? wish.link : 'http://' + wish.link}" th:text="Link">Link</a>
+        </td>
         <td th:text="${wish.price}"></td>
         <td>
             <a th:href="@{/{wishid}/editwish}"> <button type="submit"> Ret Ønske </button></a>
