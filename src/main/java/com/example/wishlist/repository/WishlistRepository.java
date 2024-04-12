@@ -260,4 +260,23 @@ public class WishlistRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public int getUserIdFromWishlistTable(int wishlistId){
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                SELECT Userid
+                FROM wishlist
+                WHERE Wishlistid = ?
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ps.setInt(1,wishlistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                return rs.getInt("Userid");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }

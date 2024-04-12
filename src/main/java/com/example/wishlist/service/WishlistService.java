@@ -45,6 +45,10 @@ public List<Wish> getListofWishes(int wishlistid){
     return repository.getListOfWishes(wishlistid);
 }
 
+public int getUserIdFromWishlist(int wishlistId){
+    return repository.getUserIdFromWishlistTable(wishlistId);
+}
+
 public void updateWish(Wish wish) {
     repository.editWish(wish);
 }
