@@ -64,7 +64,7 @@ public class WishlistController {
     @GetMapping("{userid}/delete/{wishlistid}")
     public String deleteWishlist(@PathVariable int userid,@PathVariable int wishlistid) {
         wishlistService.deleteWishlist(wishlistid);
-        return "redirect:/" + userid + "wishlists";
+        return "redirect:/" + userid + "/wishlists";
     }
 
     @GetMapping("{wishlistid}/wishes")
@@ -94,7 +94,13 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishlistid}/{wishid}/editwish")
-    public String editWish() {
+    public String editWish(@PathVariable int wishlistid, @PathVariable int wishid, Model model) {
+        Wish updateWish = wishlistService.getWishFromWishID(wishid);
+        wishid = updateWish.getWishID();
+        wishlistid = updateWish.getWishlistID();
+        model.addAttribute("wishid", wishid);
+        model.addAttribute("wish", updateWish);
+        model.addAttribute("wishlistid", wishlistid);
         return "editwish";
     }
 

@@ -122,7 +122,7 @@ public class WishlistRepository {
         return rows == 1;
     }
 
-    public void deleteWish(int wishID){
+    public void deleteWish(int wishID) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 DELETE FROM wish WHERE wishid = ?
@@ -142,7 +142,7 @@ public class WishlistRepository {
         List<Wish> listOfWishes = new ArrayList<>();
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                SELECT Name,Description,Link,Price, Wishid 
+                SELECT Name,Description,Link,Price,Wishlistid,Wishid 
                 FROM wish
                 WHERE wishlistid = ?
                 """;
@@ -155,9 +155,10 @@ public class WishlistRepository {
                 String description = rs.getString("Description");
                 String link = rs.getString("Link");
                 int price = rs.getInt("Price");
+                int listid = rs.getInt("Wishlistid");
                 int id = rs.getInt("Wishid");
-             //   int wishID = rs.getInt("wishid");
-                Wish wish = new Wish(name, description, link, price, id);
+                //   int wishID = rs.getInt("wishid");
+                Wish wish = new Wish(name, description, link, price, listid, id);
                 listOfWishes.add(wish);
             }
 
@@ -209,6 +210,7 @@ public class WishlistRepository {
                     ps.setString(2, wish.getDescription());
                     ps.setString(3, wish.getLink());
                     ps.setInt(4, wish.getPrice());
+                    ps.setInt(5, wish.getWishID());
 
                     int rowsAffected = ps.executeUpdate();
                     if (rowsAffected == 0) {
@@ -288,17 +290,17 @@ public class WishlistRepository {
         }
     }
 
-    public int getUserIdFromWishlistTable(int wishlistId){
-        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+    public int getUserIdFromWishlistTable(int wishlistId) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 SELECT Userid
                 FROM wishlist
                 WHERE Wishlistid = ?
                 """;
-        try(PreparedStatement ps = con.prepareStatement(SQL)){
-            ps.setInt(1,wishlistId);
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setInt(1, wishlistId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 return rs.getInt("Userid");
             }
         } catch (SQLException e) {
@@ -313,5 +315,40 @@ public class WishlistRepository {
         ps.setInt(1, wishlistID);
         ResultSet rs = ps.executeQuery();
         return rs.next(); // Returnerer true hvis wishlist med et givent ID findes
+    }
+
+    public Wish getWishFromWishID(int wishid) {
+        Wish wishToUpdate;
+
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+
+        String sql = """
+                        SELECT Name,
+                        Description,
+                        Link,
+                        Price,
+                        Wishlistid
+                FROM wish
+                WHERE Wishid = ?;
+                """;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, wishid);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                String name = rs.getString("Name");
+                String description = rs.getString("Description");
+                String link = rs.getString("Link");
+                int price = rs.getInt("Price");
+                int wishlistid = rs.getInt("Wishlistid");
+                wishToUpdate = new Wish(name, description, link, price, wishlistid, wishid);
+
+                return wishToUpdate;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

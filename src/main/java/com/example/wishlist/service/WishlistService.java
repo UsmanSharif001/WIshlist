@@ -62,4 +62,8 @@ public class WishlistService {
         repository.deleteWish(wishID);
     }
 
+    public Wish getWishFromWishID(int wishid){
+        return repository.getWishFromWishID(wishid);
+    }
+
 }
