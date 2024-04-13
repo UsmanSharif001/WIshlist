@@ -26,20 +26,21 @@
         </td>
         <td th:text="${wish.price} + ' kr.'"></td>
         <td>
-            <a th:href="@{/{wishid}/editwish}">
+            <a th:href="@{'/' + ${wishlistid} + '/' + ${wish.getWishID()} + '/editwish'}">
                 <button type="submit"> Ret Ønske</button>
             </a>
-            <a th:href="@{/{wishid}/deletewish}">
+            <a th:href="@{'/' + ${wishlistid} + '/' + ${wish.getWishID()} + '/deletewish'}">
                 <button> Slet Ønske</button>
             </a>
         </td>
     </tr>
     </tbody>
+
 </table>
 <a th:href="@{/{wishlistid}/addwish(wishlistid=${wishlistid})}">
     <button type="submit"> Tilføj Ønske</button>
 </a>
-<a th:href="@{/{userid}/wishlist(userid=${userID})}">
+<a th:href="@{/{userid}/wishlists(userid=${userID})}">
     <button type="submit"> Tilbage</button>
 </a>
 </body>

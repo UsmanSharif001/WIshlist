@@ -2,18 +2,15 @@ package com.example.wishlist.controller;
 
 import com.example.wishlist.model.User;
 import com.example.wishlist.model.Wish;
-import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,11 +44,11 @@ public class WishlistController {
         return "redirect:/";
     }
 
-    @GetMapping("/{userid}/wishlist")
+    @GetMapping("/{userid}/wishlists")
     public String getWishlist(@PathVariable int userid, Model model) {
         List<Wishlist> wishlists = wishlistService.getWishlists(userid);
         model.addAttribute("wishlists", wishlists);
-        return "wishlist";
+        return "wishlists";
     }
 
     @GetMapping("/{userid}/addwishlist")
@@ -67,15 +64,17 @@ public class WishlistController {
     @GetMapping("{userid}/delete/{wishlistid}")
     public String deleteWishlist(@PathVariable int userid,@PathVariable int wishlistid) {
         wishlistService.deleteWishlist(wishlistid);
-        return "redirect:/" + userid + "/wishlist";
+        return "redirect:/" + userid + "wishlists";
     }
 
     @GetMapping("{wishlistid}/wishes")
     public String getWishes(@PathVariable int wishlistid, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     int userID = wishlistService.getUserIdFromWishlist(wishlistid);
+    int wishid = listOfWishes.get(0).getWishID();
     model.addAttribute("listOfWishes", listOfWishes);
     model.addAttribute("userID", userID);
+    model.addAttribute("wishid", wishid);
         return "wishes";
     }
 
@@ -94,18 +93,21 @@ public class WishlistController {
         return "redirect:/" + wishlistid + "/wishes";
     }
 
-    @GetMapping("/{wishid}/editwish")
+    @GetMapping("/{wishlistid}/{wishid}/editwish")
     public String editWish() {
         return "editwish";
     }
 
-    @PostMapping("/updatewish")
-    public String updateWish() {
-        return "redirect/wishes";
+    @PostMapping("/{wishlistid}/updatewish")
+    public String updateWish(@PathVariable int wishlistid, Model model) {
+        model.addAttribute("wishlistid", wishlistid);
+        return "redirect:/" + wishlistid + "/wishes";
     }
 
-    @GetMapping("/{wishid}/deletewish")
-    public String deleteWish() {
-        return "redirect/wishes";
+    @GetMapping("/{wishlistid}/{wishid}/deletewish")
+    public String deleteWish(@PathVariable int wishlistid, @PathVariable("wishid") int wishid, Model model) {
+        wishlistService.deleteWish(wishid);
+        model.addAttribute("wishlistid", wishlistid);
+        return "redirect:/" + wishlistid + "/wishes";
     }
 }

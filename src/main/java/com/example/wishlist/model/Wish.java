@@ -9,11 +9,12 @@ public class Wish {
     private int wishlistID;
     private int wishID;
 
-    public Wish(String name, String description, String link, int price){
+    public Wish(String name, String description, String link, int price, int wishID){
         this.name = name;
         this.description = description;
         this.link = link;
         this.price = price;
+        this.wishID = wishID;
     }
     public Wish(){
 

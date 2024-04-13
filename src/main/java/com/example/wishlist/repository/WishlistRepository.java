@@ -122,6 +122,19 @@ public class WishlistRepository {
         return rows == 1;
     }
 
+    public void deleteWish(int wishID){
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = """
+                DELETE FROM wish WHERE wishid = ?
+                """;
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, wishID);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //Metode der getWishes??? (burde den hedde get wish?)
 
@@ -129,7 +142,7 @@ public class WishlistRepository {
         List<Wish> listOfWishes = new ArrayList<>();
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                SELECT Name,Description,Link,Price 
+                SELECT Name,Description,Link,Price, Wishid 
                 FROM wish
                 WHERE wishlistid = ?
                 """;
@@ -142,8 +155,9 @@ public class WishlistRepository {
                 String description = rs.getString("Description");
                 String link = rs.getString("Link");
                 int price = rs.getInt("Price");
+                int id = rs.getInt("Wishid");
              //   int wishID = rs.getInt("wishid");
-                Wish wish = new Wish(name, description, link, price);
+                Wish wish = new Wish(name, description, link, price, id);
                 listOfWishes.add(wish);
             }
 

@@ -14,7 +14,7 @@
     </thead>
     <tr th:each="user : ${users}">
         <td th:text="${user.getUserName()}"></td>
-        <td><a th:href="@{/{userid}/wishlist(userid=${user.getUserID()})}">
+        <td><a th:href="@{/{userid}/wishlists(userid=${user.getUserID()})}">
             <button type="button">Log ind</button>
         </a></td>
     </tr>
