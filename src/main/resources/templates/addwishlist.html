@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Title</title>
+    <title>Tilføj Ønskeliste</title>
 </head>
 <body>
+<form th:action="@{/{userid}/savewishlist(userid=${userid})}" th:method="POST" th:object="${wishlist}">
+<p>
 
+    <input type="hidden" id="userId" th:field="*{userId}">
+
+    <Label for="name"> Navn </Label>
+    <input id="name" type="text" th:field="*{name}">
+
+
+</p>
+    <button type="submit">Tilføj Ønskeliste</button>
+</form>
+
+<a th:href="@{/{userid}/wishlist(userid=${userid})}"> <button type="button">Tilbage</button> </a>
 </body>
 </html>

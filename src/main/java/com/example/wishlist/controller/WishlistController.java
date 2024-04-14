@@ -51,17 +51,22 @@ public class WishlistController {
     public String getWishlist(@PathVariable int userid, Model model) {
         List<Wishlist> wishlists = wishlistService.getWishlists(userid);
         model.addAttribute("wishlists", wishlists);
+
         return "wishlist";
     }
 
     @GetMapping("/{userid}/addwishlist")
-    public String addWishlist() {
+    public String addWishlist(@PathVariable int userid, Model model) {
+        model.addAttribute("wishlist", new Wishlist());
+        model.addAttribute("userid", userid);
         return "addwishlist";
     }
 
-    @PostMapping("/savewishlist")
-    public String saveWishlist() {
-        return "redirect:/wishlist";
+    @PostMapping("{userid}/savewishlist")
+    public String saveWishlist(@ModelAttribute Wishlist wishlist, @PathVariable int userid) {
+        wishlist.setUserId(userid);
+        wishlistService.createWishlist(wishlist);
+        return "redirect:/" + userid + "/wishlist";
     }
 
     @GetMapping("{userid}/delete/{wishlistid}")
