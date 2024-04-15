@@ -30,13 +30,13 @@ public class WishlistRepository {
     //Metode der opretter og gemmer en wishlist i databasen US
 
     public void createWishlist(Wishlist wishlist) {
-        try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String insertSQL = "INSERT INTO Wishlist (Userid, Name) VALUES (?,?)";
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String insertSQL = "INSERT INTO Wishlist (Userid, Name) VALUES (?,?)";
 
-                PreparedStatement psInsert = con.prepareStatement(insertSQL);
-                psInsert.setInt(1, wishlist.getUserId());
-                psInsert.setString(2, wishlist.getName());
-                psInsert.executeUpdate();
+        try (PreparedStatement psInsert = con.prepareStatement(insertSQL)) {
+            psInsert.setInt(1, wishlist.getUserId());
+            psInsert.setString(2, wishlist.getName());
+            psInsert.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create wishlist");
@@ -191,42 +191,35 @@ public class WishlistRepository {
 
     //Metoade der update/edit og gemmer et ønske i databasen
     public void editWish(Wish wish) {
-        try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
-                    "Link = ?, Price = ? WHERE Wishid = ?;";
-            try (PreparedStatement ps = con.prepareStatement(SQL)) {
-                {
-                    ps.setString(1, wish.getName());
-                    ps.setString(2, wish.getDescription());
-                    ps.setString(3, wish.getLink());
-                    ps.setInt(4, wish.getPrice());
-                    ps.setInt(5, wish.getWishID());
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
+                "Link = ?, Price = ? WHERE Wishid = ?;";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
 
-                    int rowsAffected = ps.executeUpdate();
-                    if (rowsAffected == 0) {
-                        System.out.println("No wish found with given wishid and wishlistid");
+            ps.setString(1, wish.getName());
+            ps.setString(2, wish.getDescription());
+            ps.setString(3, wish.getLink());
+            ps.setInt(4, wish.getPrice());
+            ps.setInt(5, wish.getWishID());
 
-                    } else {
-                        System.out.println("Wish updated succesfully!");
-                    }
-                }
+            ps.executeUpdate();
 
-            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Failed to edit wish: " + wish.getName() + e);
         }
     }
 
+
     //Metode der sletter ønske på wishID
 
     public List<User> getListOfUsers() {
         List<User> userList = new ArrayList<>();
-
         User user;
-        try {
-            Connection con = DriverManager.getConnection(db_url, username, pwd);
-            String sqlSelectAllUsers = "SELECT * FROM wishlist.user;";
-            PreparedStatement ps = con.prepareStatement(sqlSelectAllUsers);
+
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String sqlSelectAllUsers = "SELECT * FROM wishlist.user;";
+        try (PreparedStatement ps = con.prepareStatement(sqlSelectAllUsers)) {
             ResultSet usersResultSet = ps.executeQuery();
 
             while (usersResultSet.next()) {
@@ -242,32 +235,15 @@ public class WishlistRepository {
         return userList;
     }
 
-    //Metode der returnerer userID
-    public int getUserID(String userName) {
-        int userID = 0;
-
-        try {
-            Connection con = DriverManager.getConnection(db_url, userName, pwd);
-            String sqlGetUserID = "SELECT Userid FROM wishlist.user WHERE Name = ?;";
-            PreparedStatement ps = con.prepareStatement(sqlGetUserID);
-
-            ps.setInt(1, userID);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return userID;
-    }
 
     //Metode der opretter en ny user
     public void addNewUser(User newUser) {
 
-        try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String insertSql = "INSERT INTO wishlist.user (Name) VALUES (?)";
-            PreparedStatement pstmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String insertSql = "INSERT INTO wishlist.user (Name) VALUES (?)";
+        try (PreparedStatement pstmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, newUser.getUserName());
-
             pstmt.executeUpdate();
 
             // set userID
@@ -328,7 +304,7 @@ public class WishlistRepository {
             ps.setInt(1, wishid);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 String name = rs.getString("Name");
                 String description = rs.getString("Description");
                 String link = rs.getString("Link");
