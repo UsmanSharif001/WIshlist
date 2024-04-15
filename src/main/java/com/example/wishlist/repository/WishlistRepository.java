@@ -1,18 +1,15 @@
 package com.example.wishlist.repository;
 
-
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.util.ConnectionManager;
 import com.example.wishlist.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -194,8 +191,8 @@ public class WishlistRepository {
     //Metoade der update/edit og gemmer et ønske i databasen
     public void editWish(Wish wish) {
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String SQL = "UPDATE Wish SET Name = ?, Description ?, " +
-                    "Link ?, Price ? WHERE Wishid = ?;";
+            String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
+                    "Link = ?, Price = ? WHERE Wishid = ?;";
             try (PreparedStatement ps = con.prepareStatement(SQL)) {
                 {
                     ps.setString(1, wish.getName());
