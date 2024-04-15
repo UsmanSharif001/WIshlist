@@ -112,6 +112,7 @@ public class WishlistRepository {
         return rows == 1;
     }
 
+    //rigtige delete metode
     public void deleteWish(int wishID) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
