@@ -15,7 +15,11 @@
     </thead>
 <tbody>
 <tr th:each="wishlist : ${wishlists}">
-    <td> <a th:href="@{/{wishlistid}/wishes(wishlistid=${wishlist.id})}" th:text="${wishlist.name}"/> </td>
+    <td>
+        <a th:href="@{/{wishlistid}/wishes(wishlistid=${wishlist.id})}">
+            <button type="submit"><span th:text="${wishlist.name}"></span></button>
+        </a>
+    </td>
     <td> <a th:href="@{'/' + ${userid} + '/delete/' + ${wishlist.id}}"> <button> Slet</button></a> </td>
 </tr>
 </tbody>

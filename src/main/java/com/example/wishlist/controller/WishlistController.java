@@ -47,12 +47,11 @@ public class WishlistController {
         return "redirect:/";
     }
 
-    @GetMapping("/{userid}/wishlist")
+    @GetMapping("/{userid}/wishlists")
     public String getWishlist(@PathVariable int userid, Model model) {
         List<Wishlist> wishlists = wishlistService.getWishlists(userid);
         model.addAttribute("wishlists", wishlists);
-
-        return "wishlist";
+        return "wishlists";
     }
 
     @GetMapping("/{userid}/addwishlist")
@@ -72,7 +71,7 @@ public class WishlistController {
     @GetMapping("{userid}/delete/{wishlistid}")
     public String deleteWishlist(@PathVariable int userid,@PathVariable int wishlistid) {
         wishlistService.deleteWishlist(wishlistid);
-        return "redirect:/" + userid + "/wishlist";
+        return "redirect:/" + userid + "/wishlists";
     }
 
     @GetMapping("/{wishlistid}/wishes")
@@ -88,7 +87,7 @@ public class WishlistController {
     @GetMapping("/{wishlistid}/addwish")
     public String addWish(@PathVariable int wishlistid, Model model) {
         model.addAttribute("wish", new Wish());
-        model.addAttribute("wishlistid", wishlistid); //OBS: måske den fejler på int/string
+        model.addAttribute("wishlistid", wishlistid);
         return "addWish";
     }
 
@@ -99,18 +98,27 @@ public class WishlistController {
         return "redirect:/" + wishlistid + "/wishes";
     }
 
-    @GetMapping("/{wishid}/editwish")
-    public String editWish() {
+    @GetMapping("/{wishlistid}/{wishid}/editwish")
+    public String editWish(@PathVariable int wishlistid, @PathVariable int wishid, Model model) {
+        Wish updateWish = wishlistService.getWishFromWishID(wishid);
+        wishid = updateWish.getWishID();
+        wishlistid = updateWish.getWishlistID();
+        model.addAttribute("wishid", wishid);
+        model.addAttribute("wish", updateWish);
+        model.addAttribute("wishlistid", wishlistid);
         return "editwish";
     }
 
-    @PostMapping("/updatewish")
-    public String updateWish() {
-        return "redirect/wishes";
+    @PostMapping("/{wishlistid}/updatewish")
+    public String updateWish(@PathVariable int wishlistid, Model model) {
+        model.addAttribute("wishlistid", wishlistid);
+        return "redirect:/" + wishlistid + "/wishes";
     }
 
-    @GetMapping("/{wishid}/deletewish")
-    public String deleteWish() {
-        return "redirect/wishes";
+    @GetMapping("/{wishlistid}/{wishid}/deletewish")
+    public String deleteWish(@PathVariable int wishlistid, @PathVariable int wishid, Model model) {
+        wishlistService.deleteWish(wishid);
+        model.addAttribute("wishlistid", wishlistid);
+        return "redirect:/" + wishlistid + "/wishes";
     }
 }

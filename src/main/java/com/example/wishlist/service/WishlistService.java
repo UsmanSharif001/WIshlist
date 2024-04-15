@@ -12,50 +12,58 @@ import java.util.List;
 @Service
 public class WishlistService {
 
-private WishlistRepository repository;
+    private WishlistRepository repository;
 
-public WishlistService(WishlistRepository repository) {
-    this.repository = repository;
-}
+    public WishlistService(WishlistRepository repository) {
+        this.repository = repository;
+    }
 
-public void addWish(Wish wish){
-    repository.addWish(wish);
-}
+    public void addWish(Wish wish) {
+        repository.addWish(wish);
+    }
+
     public List<User> getListOfUsers() {
-    return repository.getListOfUsers();
+        return repository.getListOfUsers();
     }
 
     public int getUserID(String name) {
-    return repository.getUserID(name);
+        return repository.getUserID(name);
     }
 
     public void addNewUser(User newUser) {
         repository.addNewUser(newUser);
     }
 
-public List<Wishlist> getWishlists(int userId){
-   return repository.getWishlists(userId);
-}
+    public List<Wishlist> getWishlists(int userId) {
+        return repository.getWishlists(userId);
+    }
 
-public boolean deleteWishlist(int wishlistId){
-    return repository.deleteWishlist(wishlistId);
-}
+    public boolean deleteWishlist(int wishlistId) {
+        return repository.deleteWishlist(wishlistId);
+    }
 
-public List<Wish> getListofWishes(int wishlistid){
-    return repository.getListOfWishes(wishlistid);
-}
+    public List<Wish> getListofWishes(int wishlistid) {
+        return repository.getListOfWishes(wishlistid);
+    }
 
-public int getUserIdFromWishlist(int wishlistId){
-    return repository.getUserIdFromWishlistTable(wishlistId);
-}
+    public int getUserIdFromWishlist(int wishlistId) {
+        return repository.getUserIdFromWishlistTable(wishlistId);
+    }
 
-public void updateWish(Wish wish) {
-    repository.editWish(wish);
-}
-public void createWishlist(Wishlist wishlist) {
-    repository.createWishlist(wishlist);
-}
+    public void updateWish(Wish wish) {
+        repository.editWish(wish);
+    }
 
+    public List<Wishlist> createWishlist(int userid, String wishlistName) {
+        return repository.createWishlist(userid, wishlistName);
+    }
 
+    public void deleteWish(int wishID) {
+        repository.deleteWish(wishID);
+    }
+
+    public Wish getWishFromWishID(int wishid){
+        return repository.getWishFromWishID(wishid);
+    }
 
 }
