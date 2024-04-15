@@ -6,12 +6,14 @@ import java.util.List;
 public class Wishlist {
 
     private int id;
+    private int userId;
     private String name;
     private List<Wish> wishList;
 
 
 
-    public Wishlist(int id, String name, List<Wish> wishList) {
+    public Wishlist(int id, int userId, String name, List<Wish> wishList) {
+        this.userId = userId;
         this.id = id;
         this.name = name;
         this.wishList = wishList;
@@ -25,6 +27,13 @@ public class Wishlist {
         this.id = id;
         this.name = name;
     }
+
+    public Wishlist(int userId,int id,String name){
+        this.userId = userId;
+        this.name = name;
+        this.id = id;
+    }
+
 
     public void addWish(Wish wish){
         if (wishList == null) {
@@ -55,6 +64,14 @@ public class Wishlist {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId(){
+        return userId;
+    }
+
+    public void setUserId(int userId){
+        this.userId = userId;
     }
 
 

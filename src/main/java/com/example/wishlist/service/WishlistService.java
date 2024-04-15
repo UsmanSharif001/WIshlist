@@ -54,8 +54,8 @@ public class WishlistService {
         repository.editWish(wish);
     }
 
-    public List<Wishlist> createWishlist(int userid, String wishlistName) {
-        return repository.createWishlist(userid, wishlistName);
+    public void createWishlist(Wishlist wishlist) {
+        repository.createWishlist(wishlist);
     }
 
     public void deleteWish(int wishID) {

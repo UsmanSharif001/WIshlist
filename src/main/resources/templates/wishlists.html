@@ -25,7 +25,7 @@
 </tbody>
 </table>
 
-<a th:href="@{/{userid}/addwishlist}"> <button type="submit"> Tilføj Ønskeliste</button></a>
+<a th:href="@{/{userid}/addwishlist(userid=${userid})}"> <button type="submit"> Tilføj Ønskeliste</button></a>
 <a th:href="@{/}"> <button type="submit"> Tilbage </button></a>
 </body>
 </html>

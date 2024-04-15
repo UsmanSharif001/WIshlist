@@ -32,20 +32,19 @@ public class WishlistRepository {
 
     //Metode der opretter og gemmer en wishlist i databasen US
 
-    public List<Wishlist> createWishlist(int userid, String wishlistName) {
-        List<Wishlist> wishlists = new ArrayList<>();
+    public void createWishlist(Wishlist wishlist) {
         try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String insertSQL = "INSERT INTO Wishlist (UserID, Name) VALUES (?, ?);";
+            String insertSQL = "INSERT INTO Wishlist (Userid, Name) VALUES (?,?)";
 
-            try (PreparedStatement psInsert = con.prepareStatement(insertSQL)) {
-                psInsert.setInt(1, userid);
-                psInsert.setString(2, wishlistName);
+                PreparedStatement psInsert = con.prepareStatement(insertSQL);
+                psInsert.setInt(1, wishlist.getUserId());
+                psInsert.setString(2, wishlist.getName());
                 psInsert.executeUpdate();
-            }
+
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create wishlist for user: " + userid, e);
+            throw new RuntimeException("Failed to create wishlist");
         }
-        return wishlists;
+
     }
 
     //Metode der henter wishlists på userID
@@ -83,6 +82,7 @@ public class WishlistRepository {
         return deleteWishFromTable(wishlistID) && deleteWishlistFromTable(wishlistID);
     }
 
+    //hjælpe metode
     //Metode der sletter ønske på wishID
     public boolean deleteWishFromTable(int wishlistId) {
         int rows = 0;
@@ -99,6 +99,7 @@ public class WishlistRepository {
         return rows >= 0;
     }
 
+    //hjælpe metode
     public boolean deleteWishlistFromTable(int wishlistID) {
         int rows = 0;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
