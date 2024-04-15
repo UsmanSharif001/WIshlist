@@ -82,6 +82,7 @@ public class WishlistRepository {
         return deleteWishFromTable(wishlistID) && deleteWishlistFromTable(wishlistID);
     }
 
+    //hjælpe metode
     //Metode der sletter ønske på wishID
     public boolean deleteWishFromTable(int wishlistId) {
         int rows = 0;
@@ -98,6 +99,7 @@ public class WishlistRepository {
         return rows >= 0;
     }
 
+    //hjælpe metode
     public boolean deleteWishlistFromTable(int wishlistID) {
         int rows = 0;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
