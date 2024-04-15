@@ -191,31 +191,25 @@ public class WishlistRepository {
 
     //Metoade der update/edit og gemmer et ønske i databasen
     public void editWish(Wish wish) {
-        try (Connection con = DriverManager.getConnection(db_url, username, pwd)) {
-            String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
-                    "Link = ?, Price = ? WHERE Wishid = ?;";
-            try (PreparedStatement ps = con.prepareStatement(SQL)) {
-                {
-                    ps.setString(1, wish.getName());
-                    ps.setString(2, wish.getDescription());
-                    ps.setString(3, wish.getLink());
-                    ps.setInt(4, wish.getPrice());
-                    ps.setInt(5, wish.getWishID());
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
+                "Link = ?, Price = ? WHERE Wishid = ?;";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
 
-                    int rowsAffected = ps.executeUpdate();
-                    if (rowsAffected == 0) {
-                        System.out.println("No wish found with given wishid and wishlistid");
+            ps.setString(1, wish.getName());
+            ps.setString(2, wish.getDescription());
+            ps.setString(3, wish.getLink());
+            ps.setInt(4, wish.getPrice());
+            ps.setInt(5, wish.getWishID());
 
-                    } else {
-                        System.out.println("Wish updated succesfully!");
-                    }
-                }
+            ps.executeUpdate();
 
-            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Failed to edit wish: " + wish.getName() + e);
         }
     }
+
 
     //Metode der sletter ønske på wishID
 
