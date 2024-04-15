@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
     <title>Ønsker</title>
+    <script th:inline="javascript">
+        function copyUrl() {
+            /* Get URL */
+            var url = window.location.href;
+
+            /* Create a temporary input element */
+            var tempInput = document.createElement("input");
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+
+            /* Select the URL text */
+            tempInput.select();
+
+            /* Copy the URL to clipboard */
+            document.execCommand("copy");
+
+            /* Remove the temporary input */
+            document.body.removeChild(tempInput);
+
+            /* Optionally, provide feedback to the user */
+            alert("URL er kopieret: " + url);
+        }
+    </script>
+
 </head>
 <body>
 <h1> Ønsker:</h1>
@@ -42,5 +66,6 @@
 <a th:href="@{/{userid}/wishlists(userid=${userID})}">
     <button type="submit"> Tilbage</button>
 </a>
+<button onclick="copyUrl()">Del ønskeliste</button>
 </body>
 </html>
