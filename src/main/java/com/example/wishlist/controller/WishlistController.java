@@ -2,11 +2,13 @@ package com.example.wishlist.controller;
 
 import com.example.wishlist.model.User;
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,14 +69,13 @@ public class WishlistController {
         return "redirect:/" + userid + "/wishlists";
     }
 
-    @GetMapping("{wishlistid}/wishes")
+    @GetMapping("/{wishlistid}/wishes")
     public String getWishes(@PathVariable int wishlistid, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     int userID = wishlistService.getUserIdFromWishlist(wishlistid);
-    int wishid = listOfWishes.get(0).getWishID();
+    //Mikkel code
     model.addAttribute("listOfWishes", listOfWishes);
     model.addAttribute("userID", userID);
-    model.addAttribute("wishid", wishid);
         return "wishes";
     }
 
@@ -86,9 +87,8 @@ public class WishlistController {
     }
 
     @PostMapping("/{wishlistid}/savewish")
-    public String saveWish(@PathVariable int wishlistid, @ModelAttribute Wish newWish, Model model) {
+    public String saveWish(@ModelAttribute Wish newWish, @PathVariable int wishlistid) {
         newWish.setWishlistID(wishlistid);
-        model.addAttribute("wishlistid", wishlistid);
         wishlistService.addWish(newWish);
         return "redirect:/" + wishlistid + "/wishes";
     }

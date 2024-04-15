@@ -34,12 +34,11 @@
             </a>
         </td>
     </tr>
+    <a th:href="@{/{wishlistid}/addwish(wishlistid=${wishlistid})}"> <button type="submit"> Tilføj Ønske </button></a>
     </tbody>
 
 </table>
-<a th:href="@{/{wishlistid}/addwish(wishlistid=${wishlistid})}">
-    <button type="submit"> Tilføj Ønske</button>
-</a>
+
 <a th:href="@{/{userid}/wishlists(userid=${userID})}">
     <button type="submit"> Tilbage</button>
 </a>
