@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-  <title>Tilføj ønske</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Tilføj ønske</title>
 </head>
 <body>
 <form th:action="@{/{wishlistid}/savewish(wishlistid=${wishlistid})}" th:method="POST" th:object="${wish}">
