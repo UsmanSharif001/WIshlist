@@ -26,9 +26,6 @@ public class WishlistService {
         return repository.getListOfUsers();
     }
 
-    public int getUserID(String name) {
-        return repository.getUserID(name);
-    }
 
     public void addNewUser(User newUser) {
         repository.addNewUser(newUser);
