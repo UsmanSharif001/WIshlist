@@ -2,13 +2,11 @@ package com.example.wishlist.controller;
 
 import com.example.wishlist.model.User;
 import com.example.wishlist.model.Wish;
-import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,7 +76,6 @@ public class WishlistController {
     public String getWishes(@PathVariable int wishlistid, Model model) {
     List<Wish> listOfWishes = wishlistService.getListofWishes(wishlistid);
     int userID = wishlistService.getUserIdFromWishlist(wishlistid);
-    //Mikkel code
     model.addAttribute("listOfWishes", listOfWishes);
     model.addAttribute("userID", userID);
         return "wishes";
@@ -101,8 +98,6 @@ public class WishlistController {
     @GetMapping("/{wishlistid}/{wishid}/editwish")
     public String editWish(@PathVariable int wishlistid, @PathVariable int wishid, Model model) {
         Wish updateWish = wishlistService.getWishFromWishID(wishid);
-        wishid = updateWish.getWishID();
-        wishlistid = updateWish.getWishlistID();
         model.addAttribute("wishid", wishid);
         model.addAttribute("wish", updateWish);
         model.addAttribute("wishlistid", wishlistid);
@@ -110,8 +105,9 @@ public class WishlistController {
     }
 
     @PostMapping("/{wishlistid}/updatewish")
-    public String updateWish(@PathVariable int wishlistid, Model model) {
-        model.addAttribute("wishlistid", wishlistid);
+    public String updateWish(@ModelAttribute Wish wish, @PathVariable int wishlistid) {
+        wish.setWishlistID(wishlistid);
+        wishlistService.updateWish(wish);
         return "redirect:/" + wishlistid + "/wishes";
     }
 
