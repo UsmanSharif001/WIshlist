@@ -65,7 +65,7 @@ public class WishlistController {
     public String saveWishlist(@ModelAttribute Wishlist wishlist, @PathVariable int userid) {
         wishlist.setUserId(userid);
         wishlistService.createWishlist(wishlist);
-        return "redirect:/" + userid + "/wishlist";
+        return "redirect:/" + userid + "/wishlists";
     }
 
     @GetMapping("{userid}/delete/{wishlistid}")
