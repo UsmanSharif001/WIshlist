@@ -28,6 +28,19 @@
         }
     </script>
 
+    <script>
+        function toggleButtonText(button) {
+            if (button.textContent.trim() === "Reservér") {
+                button.textContent = "Reserveret";
+                button.style.backgroundColor = "red";
+            } else {
+                button.textContent = "Reservér";
+                button.style.backgroundColor = "green";
+            }
+        }
+    </script>
+
+
 </head>
 <body>
 <h1> Ønsker:</h1>
@@ -56,16 +69,24 @@
             <a th:href="@{'/' + ${wishlistid} + '/' + ${wish.getWishID()} + '/deletewish'}">
                 <button> Slet Ønske</button>
             </a>
+            <button onclick="toggleButtonText(this)" style="background-color: green; color: white;">
+                Reservér
+            </button>
         </td>
     </tr>
-    <a th:href="@{/{wishlistid}/addwish(wishlistid=${wishlistid})}"> <button type="submit"> Tilføj Ønske </button></a>
     </tbody>
 
 </table>
 
+<a th:href="@{/{wishlistid}/addwish(wishlistid=${wishlistid})}">
+    <button type="submit"> Tilføj Ønske</button>
+</a>
+
+<button onclick="copyUrl()">Del ønskeliste</button>
+<br>
 <a th:href="@{/{userid}/wishlists(userid=${userID})}">
     <button type="submit"> Tilbage</button>
 </a>
-<button onclick="copyUrl()">Del ønskeliste</button>
+
 </body>
 </html>
