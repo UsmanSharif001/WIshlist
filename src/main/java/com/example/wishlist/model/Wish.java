@@ -15,6 +15,7 @@ public class Wish {
         this.link = link;
         this.price = price;
         this.wishlistID = wishlistID;
+        this.wishID = wishID;
     }
 
     public Wish(String name, String description, String link, int price){
@@ -22,8 +23,10 @@ public class Wish {
         this.description = description;
         this.link = link;
         this.price = price;
-        this.wishlistID = wishlistID;
-        this.wishID = wishID;
+    }
+
+    public Wish(){
+
     }
 
     public String getName() {

@@ -111,7 +111,7 @@ public class WishlistController {
     }
 
     @GetMapping("/{wishlistid}/{wishid}/deletewish")
-    public String deleteWish(@PathVariable int wishlistid, @PathVariable("wishid") int wishid, Model model) {
+    public String deleteWish(@PathVariable int wishlistid, @PathVariable int wishid, Model model) {
         wishlistService.deleteWish(wishid);
         model.addAttribute("wishlistid", wishlistid);
         return "redirect:/" + wishlistid + "/wishes";
