@@ -1,12 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Title</title>
+    <title>Opdater ønske</title>
 </head>
 <body>
-
+<form th:action="@{/{wishlistid}/updatewish(wishlistid=${wishlistid})}" th:method="POST" th:object="${wish}">
+    <p>
+        <label for="name">Navn:</label>
+        <input id="name" type="text" th:field="*{name}"/>
+    </p>
+    <p>
+        <label for="description">Beskrivelse:</label>
+        <input id="description" type="text" th:field="*{description}"/>
+    </p>
+    <p>
+        <label for="link">Link:</label>
+        <input id="link" type="text" th:field="*{link}"/>
+    </p>
+    <p>
+        <label for="price"> Pris: </label>
+        <input id="price" type="text" th:field="*{price}">
+    </p>
+    <p>
+        <input type="hidden" id="wishlistID" th:value="${wishlistid}" th:field="*{wishlistID}">
+    </p>
+    <p>
+        <input type="hidden" id="wishID" th:value="${wishid}" th:field="*{wishID}">
+    </p>
+    <button type="submit">Tilføj opdateringer</button>
+</form>
+<p>
+    <a th:href="@{/{wishlistid}/wishes(wishlistid=${wishlistid})}"> <button type="button">Tilbage</button> </a>
+</p>
 
 
 </body>
