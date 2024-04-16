@@ -18,7 +18,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    permissions:
+      checks: write
+      contents: read
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -29,4 +31,18 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B test --file pom.xml
+    - name: Publish Test Report
+      if: succes() || failure()
+      uses: scacap/action-surefire-report@v1
+  qodana:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+            with:
+              fetch-depth: 0
+          - name: 'Qodana Scan'
+            uses: JetBrains/qodana-action@v2023.2
+            env:
+              QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
