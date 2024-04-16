@@ -9,6 +9,7 @@ public class Wishlist {
     private int userId;
     private String name;
     private List<Wish> wishList;
+    private int userid;
 
 
 
@@ -17,11 +18,17 @@ public class Wishlist {
         this.id = id;
         this.name = name;
         this.wishList = wishList;
+
+    }
+
+    public Wishlist(int userid) {
+        this.userid=userid;
     }
 
     public Wishlist() {
 
     }
+
 
     public Wishlist(int id, String name) {
         this.id = id;
