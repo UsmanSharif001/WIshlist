@@ -103,7 +103,7 @@ public class WishlistController {
         model.addAttribute("wishlistid", wishlistid);
         return "editwish";
     }
-
+//Comment added in controller
     @PostMapping("/{wishlistid}/updatewish")
     public String updateWish(@ModelAttribute Wish wish, @PathVariable int wishlistid) {
         wish.setWishlistID(wishlistid);
