@@ -9,7 +9,7 @@ public class Wish {
     private int wishlistID;
     private int wishID;
 
-    public Wish(String name, String description, String link, int price, int wishlistID, int wishID){
+    public Wish(String name, String description, String link, int price, int wishlistID, int wishID) {
         this.name = name;
         this.description = description;
         this.link = link;
@@ -18,14 +18,8 @@ public class Wish {
         this.wishID = wishID;
     }
 
-    public Wish(String name, String description, String link, int price){
-        this.name = name;
-        this.description = description;
-        this.link = link;
-        this.price = price;
-    }
 
-    public Wish(){
+    public Wish() {
 
     }
 
