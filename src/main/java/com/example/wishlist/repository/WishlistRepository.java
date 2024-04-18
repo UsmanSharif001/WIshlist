@@ -6,6 +6,7 @@ import com.example.wishlist.util.ConnectionManager;
 import com.example.wishlist.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -29,7 +30,7 @@ public class WishlistRepository {
 
     //Metode der opretter og gemmer en wishlist i databasen US
 
-    public void createWishlist(Wishlist wishlist) {
+    public Wishlist createWishlist(Wishlist wishlist) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String insertSQL = "INSERT INTO Wishlist (Userid, Name) VALUES (?,?)";
 
@@ -41,7 +42,7 @@ public class WishlistRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create wishlist");
         }
-
+        return wishlist;
     }
 
     //Metode der henter wishlists på userID
@@ -93,7 +94,7 @@ public class WishlistRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rows >= 0;
+        return rows >= 1;
     }
 
     //hjælpe metode
@@ -162,7 +163,7 @@ public class WishlistRepository {
     //Metode der opretter og gemmer et ønske i databasen - Mu
     public void addWish(Wish wish) {
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
-            if (!wishlistExists(connection, wish.getWishlistID())) {
+            if (!wishlistExists(wish.getWishlistID())) {
                 throw new IllegalArgumentException("Wishlist med ID: " + wish.getWishlistID() + " findes ikke.");
             }
             String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES(?, ?, ?, ?, ?);";
@@ -190,7 +191,7 @@ public class WishlistRepository {
     }
 
     //Metoade der update/edit og gemmer et ønske i databasen
-    public void editWish(Wish wish) {
+    public Wish editWish(Wish wish) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "UPDATE Wish SET Name = ?, Description = ?, " +
                 "Link = ?, Price = ? WHERE Wishid = ?;";
@@ -208,6 +209,8 @@ public class WishlistRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to edit wish: " + wish.getName() + e);
         }
+
+        return wish;
     }
 
 
@@ -218,7 +221,7 @@ public class WishlistRepository {
         User user;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String sqlSelectAllUsers = "SELECT * FROM wishlist.user;";
+        String sqlSelectAllUsers = "SELECT * FROM user";
         try (PreparedStatement ps = con.prepareStatement(sqlSelectAllUsers)) {
             ResultSet usersResultSet = ps.executeQuery();
 
@@ -277,7 +280,8 @@ public class WishlistRepository {
         return 0;
     }
 
-    private boolean wishlistExists(Connection connection, int wishlistID) throws SQLException {
+    public boolean wishlistExists(int wishlistID) throws SQLException {
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "SELECT Wishlistid FROM wishlist WHERE Wishlistid = ?";
         PreparedStatement ps = connection.prepareStatement(SQL);
         ps.setInt(1, wishlistID);

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Wishlist {
 
-    private int id;
+    private int wishListID;
     private int userId;
     private String name;
     private List<Wish> wishList;
@@ -13,9 +13,9 @@ public class Wishlist {
 
 
 
-    public Wishlist(int id, int userId, String name, List<Wish> wishList) {
+    public Wishlist(int wishListID, int userId, String name, List<Wish> wishList) {
         this.userId = userId;
-        this.id = id;
+        this.wishListID = wishListID;
         this.name = name;
         this.wishList = wishList;
 
@@ -30,15 +30,15 @@ public class Wishlist {
     }
 
 
-    public Wishlist(int id, String name) {
-        this.id = id;
+    public Wishlist(int wishListID, String name) {
+        this.wishListID = wishListID;
         this.name = name;
     }
 
-    public Wishlist(int userId,int id,String name){
+    public Wishlist(int userId, int wishListID, String name){
         this.userId = userId;
         this.name = name;
-        this.id = id;
+        this.wishListID = wishListID;
     }
 
 
@@ -65,12 +65,12 @@ public class Wishlist {
         this.wishList = wishList;
     }
 
-    public int getId() {
-        return id;
+    public int getWishListID() {
+        return wishListID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setWishListID(int wishListID) {
+        this.wishListID = wishListID;
     }
 
     public int getUserId(){
@@ -81,5 +81,14 @@ public class Wishlist {
         this.userId = userId;
     }
 
-
+    @Override
+    public String toString() {
+        return "Wishlist{" +
+                "wishListID=" + wishListID +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", wishList=" + wishList +
+                ", userid=" + userid +
+                '}';
+    }
 }
