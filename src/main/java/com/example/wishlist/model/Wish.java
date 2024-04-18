@@ -18,12 +18,6 @@ public class Wish {
         this.wishID = wishID;
     }
 
-    public Wish(String name, String description, String link, int price){
-        this.name = name;
-        this.description = description;
-        this.link = link;
-        this.price = price;
-    }
 
     public Wish(){
 
