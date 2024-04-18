@@ -10,7 +10,7 @@ public class User {
         this.userName = name;
     }
 
-    public User(){
+    public User() {
 
     }
 

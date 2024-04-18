@@ -6,6 +6,7 @@ import com.example.wishlist.util.ConnectionManager;
 import com.example.wishlist.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -98,20 +99,25 @@ public class WishlistRepository {
     }
 
 
-
-    public void createWishlist(Wishlist wishlist) {
+    public Wishlist createWishlist(Wishlist wishlist) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String insertSQL = "INSERT INTO Wishlist (Userid, Name) VALUES (?,?)";
 
-        try (PreparedStatement psInsert = con.prepareStatement(insertSQL)) {
+        try (PreparedStatement psInsert = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
             psInsert.setInt(1, wishlist.getUserId());
             psInsert.setString(2, wishlist.getName());
-            psInsert.executeUpdate();
+            int rows = psInsert.executeUpdate();
+            ResultSet rs = psInsert.getGeneratedKeys();
+            if (rs.next()) {
+                int wishlistID = rs.getInt(1);
+                wishlist.setId(wishlistID);
+                return wishlist;
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create wishlist");
         }
-
+        return null;
     }
 
     public boolean deleteWishlist(int wishlistID) {
@@ -208,8 +214,6 @@ public class WishlistRepository {
             throw new RuntimeException(e);
         }
     }
-
-
 
 
     public void deleteWish(int wishID) {
