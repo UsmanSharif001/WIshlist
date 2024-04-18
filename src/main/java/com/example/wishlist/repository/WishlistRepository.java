@@ -246,35 +246,6 @@ public class WishlistRepository {
         }
     }
 
-
-
-    public int getUserIdFromWishlistTable(int wishlistId) {
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = """
-                SELECT Userid
-                FROM wishlist
-                WHERE Wishlistid = ?
-                """;
-        try (PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setInt(1, wishlistId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("Userid");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return 0;
-    }
-
-    private boolean wishlistExists(Connection connection, int wishlistID) throws SQLException {
-        String SQL = "SELECT Wishlistid FROM wishlist WHERE Wishlistid = ?";
-        PreparedStatement ps = connection.prepareStatement(SQL);
-        ps.setInt(1, wishlistID);
-        ResultSet rs = ps.executeQuery();
-        return rs.next(); // Returnerer true hvis wishlist med et givent ID findes
-    }
-
     public Wish getWishFromWishID(int wishid) {
         Wish wishToUpdate;
 
@@ -309,4 +280,35 @@ public class WishlistRepository {
         }
         return null;
     }
+
+
+    //hjælpe metode
+    public int getUserIdFromWishlistTable(int wishlistId) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = """
+                SELECT Userid
+                FROM wishlist
+                WHERE Wishlistid = ?
+                """;
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setInt(1, wishlistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Userid");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    private boolean wishlistExists(Connection connection, int wishlistID) throws SQLException {
+        String SQL = "SELECT Wishlistid FROM wishlist WHERE Wishlistid = ?";
+        PreparedStatement ps = connection.prepareStatement(SQL);
+        ps.setInt(1, wishlistID);
+        ResultSet rs = ps.executeQuery();
+        return rs.next(); // Returnerer true hvis wishlist med et givent ID findes
+    }
+
+
 }
