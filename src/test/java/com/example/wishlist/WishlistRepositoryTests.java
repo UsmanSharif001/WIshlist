@@ -36,7 +36,7 @@ public class WishlistRepositoryTests {
             Wishlist expectedWishlist = expectedWishlistFound.get(i);
             Wishlist actualWishlist = theasWishlists.get(i);
 
-            assertEquals(expectedWishlist.getWishListID(), actualWishlist.getWishListID(), "User ID mismatch at index " + i);
+            assertEquals(expectedWishlist.getId(), actualWishlist.getId(), "User ID mismatch at index " + i);
             assertEquals(expectedWishlist.getName(), actualWishlist.getName(), "Name mismatch at index " + i);
         }
     }
@@ -54,17 +54,9 @@ public class WishlistRepositoryTests {
         Wishlist wishlist = new Wishlist();
         wishlist.setUserId(2);
         wishlist.setName("test");
-
         wishlist = repository.createWishlist(wishlist);
-
-        System.out.println(wishlist);
-
-        // Tjek om wishlist.getWishListID() > 4
-
-        System.out.println(wishlist.getWishListID());
-
         assertNotNull(wishlist);
-        assertTrue(wishlist.getWishListID() > 4);
+        assertTrue(wishlist.getId() > 4);
     }
 
     @Test
@@ -97,7 +89,8 @@ public class WishlistRepositoryTests {
 
     @Test
     void addWish() {
-        // Samme fejl på user / users som getListOfUsers metoden.
+        // Fejler fordi tabellen hedder "user" i vores SQL, men "users" i h2.
+        // Vi kan ikke få lov at kalde den "user" i h2 fordi den giver syntax fejl? Måske er "user" et keyword?
 
 /*        Wish wish = new Wish();
         wish.setName("Test Wish");
@@ -122,12 +115,15 @@ public class WishlistRepositoryTests {
         repository.editWish(wish);
 
         // tjekke om den er ændret i databasen?
+        // Hvordan gør man det?
 
     }
 
     @Test
-    void getListOfUsers() { // Fejler fordi tabellen hedder "user" i vores SQL, men "users" i h2.
-        // Vi kan ikke få lov at kalde den "user" i h2 fordi det er en anden syntax? Måske et keyword?
+    void getListOfUsers() {
+
+        // Fejler fordi tabellen hedder "user" i vores SQL, men "users" i h2.
+        // Vi kan ikke få lov at kalde den "user" i h2 fordi den giver syntax fejl? Måske er "user" et keyword?
 /*
         List<User> userList = repository.getListOfUsers();
         int expectedSize = 4;
@@ -137,19 +133,21 @@ public class WishlistRepositoryTests {
 
     @Test
     void addNewUser() {
-
         // Fejler fordi tabellen hedder "user" i vores SQL, men "users" i h2.
-        // Vi kan ikke få lov at kalde den "user" i h2 fordi det er en anden syntax? Måske et keyword?
-
+        // Vi kan ikke få lov at kalde den "user" i h2 fordi den giver syntax fejl? Måske er "user" et keyword?
     }
 
     @Test
-    void wishlistExists() throws SQLException {
+    void wishlistExistsFound() throws SQLException {
         int exsistingWishlistID = 1;
-        int notExsistingWishlistID = 0;
         boolean found = repository.wishlistExists(exsistingWishlistID);
-        boolean notFound = repository.wishlistExists(notExsistingWishlistID);
         assertTrue(found);
+    }
+
+    @Test
+    void wishlistExistsNotFound() throws SQLException {
+        int notExsistingWishlistID = 0;
+        boolean notFound = repository.wishlistExists(notExsistingWishlistID);
         assertFalse(notFound);
     }
 
