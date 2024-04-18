@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -43,6 +44,12 @@ public class RepositoryTests {
         int expectedUserIDForThea = 2;
         int actualUserID = repository.getUserIdFromWishlistTable(wishListIDForThea);
         assertEquals(expectedUserIDForThea, actualUserID);
+    }
+
+    @Test
+    void createWishlist(){
+        Wishlist wishlist = repository.createWishlist(new Wishlist(4,"Julegaver"));
+        assertTrue(wishlist.getId()>4);
     }
 
 }
