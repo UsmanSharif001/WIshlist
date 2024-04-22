@@ -52,4 +52,12 @@ public class RepositoryTests {
         assertTrue(wishlist.getId()>4);
     }
 
+//    @Test
+//    void ShowallUsers(){
+//        int expectedSize = 4;
+//        int actualsize = repository.getListOfUsers().size();
+//        assertEquals(expectedSize, actualsize);
+//
+//    }
+
 }

@@ -1,21 +1,19 @@
-CREATE table users
-(
-    Userid Integer NOT NULL auto_increment,
+CREATE TABLE users (
+    Userid INTEGER auto_increment,
     Name   varchar(50),
     primary key (Userid)
 );
-CREATE table wishlist
-(
-    Wishlistid Integer NOT NULL auto_increment,
+
+CREATE table wishlist (
+    Wishlistid Integer auto_increment,
     Userid     integer,
     Name       varchar(100),
     primary key (Wishlistid),
     foreign key (Userid) references users (Userid)
 );
 
-create table wish
-(
-    Wishid      integer NOT NULL auto_increment,
+create table wish (
+    Wishid      integer auto_increment,
     Name        varchar(100),
     Description varchar(500),
     Link        varchar(500),

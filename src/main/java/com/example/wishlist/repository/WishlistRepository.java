@@ -33,7 +33,9 @@ public class WishlistRepository {
         User user;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String sqlSelectAllUsers = "SELECT * FROM wishlist.user;";
+
+        String sqlSelectAllUsers = "SELECT * FROM user;";
+
         try (PreparedStatement ps = con.prepareStatement(sqlSelectAllUsers)) {
             ResultSet usersResultSet = ps.executeQuery();
 
