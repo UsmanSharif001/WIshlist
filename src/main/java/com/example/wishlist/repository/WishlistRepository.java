@@ -55,7 +55,7 @@ public class WishlistRepository {
     public void addNewUser(User newUser) {
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String insertSql = "INSERT INTO wishlist.user (Name) VALUES (?)";
+        String insertSql = "INSERT INTO user (Name) VALUES (?)";
         try (PreparedStatement pstmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, newUser.getUserName());
@@ -77,7 +77,7 @@ public class WishlistRepository {
         List<Wishlist> wishlistList = new ArrayList<>();
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                SELECT name,wishlistid
+                SELECT *
                 FROM wishlist
                 WHERE userid = ?
                 """;
@@ -89,6 +89,7 @@ public class WishlistRepository {
             while (rs.next()) {
                 Wishlist wishlist = new Wishlist(
                         rs.getInt("Wishlistid"),
+                        rs.getInt("Userid"),
                         rs.getString("Name")
                 );
                 wishlistList.add(wishlist);
@@ -139,7 +140,7 @@ public class WishlistRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rows >= 1;
+        return rows >= 0;
     }
 
     //hjælpe metode til deleteWishlist
@@ -164,7 +165,7 @@ public class WishlistRepository {
         String SQL = """
                 SELECT Name,Description,Link,Price,Wishlistid,Wishid 
                 FROM wish
-                WHERE wishlistid = ?
+                WHERE Wishlistid = ?
                 """;
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, wishlistID);
