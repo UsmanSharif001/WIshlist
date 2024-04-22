@@ -12,14 +12,10 @@ public class Wishlist {
 
     }
 
-    public Wishlist(int userId, String name) {
-        this.userId = userId;
-        this.name = name;
-    }
 
-    public Wishlist(int userId, int id, String name) {
-        this.userId = userId;
+    public Wishlist( int id, int userId, String name) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
     }
 
