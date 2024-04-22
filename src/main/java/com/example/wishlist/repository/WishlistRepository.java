@@ -137,7 +137,7 @@ public class WishlistRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rows >= 0;
+        return rows >= 1;
     }
 
     //hjælpe metode til deleteWishlist
@@ -188,7 +188,7 @@ public class WishlistRepository {
 
     public void addWish(Wish wish) {
         try (Connection connection = DriverManager.getConnection(db_url, username, pwd)) {
-            if (!wishlistExists(connection, wish.getWishlistID())) {
+            if (!wishlistExists(wish.getWishlistID())) {
                 throw new IllegalArgumentException("Wishlist med ID: " + wish.getWishlistID() + " findes ikke.");
             }
             String SQL = "INSERT INTO wish(Name, Description, Link, Price, WishlistID) VALUES(?, ?, ?, ?, ?);";
@@ -306,7 +306,8 @@ public class WishlistRepository {
         return 0;
     }
 
-    private boolean wishlistExists(Connection connection, int wishlistID) throws SQLException {
+    public boolean wishlistExists(int wishlistID) throws SQLException {
+        Connection connection = DriverManager.getConnection(db_url, username, pwd);
         String SQL = "SELECT Wishlistid FROM wishlist WHERE Wishlistid = ?";
         PreparedStatement ps = connection.prepareStatement(SQL);
         ps.setInt(1, wishlistID);
