@@ -13,7 +13,7 @@ public class Wishlist {
     }
 
 
-    public Wishlist( int id, int userId, String name) {
+    public Wishlist(int id, int userId, String name) {
         this.id = id;
         this.userId = userId;
         this.name = name;

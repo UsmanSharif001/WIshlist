@@ -18,9 +18,7 @@ public class Wish {
         this.wishID = wishID;
     }
 
-
     public Wish() {
-
     }
 
     public String getName() {
